@@ -879,6 +879,14 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.my-guest .edit{
+  color:#18d26e;
+  cursor: pointer;
+}
+.my-guest .delete{
+  color:red;
+  cursor: pointer;
+}
 /* my guests css end*/
 
 /*--------------------------------------------------------------
