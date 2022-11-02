@@ -7,24 +7,28 @@ require_once("../path.php");
 require_once(SITE_ROOT_DIR_PATH . "include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
+
+
 $guest_data = array();
+
+// query for delete data from database
 if ($_GET['action'] && $_GET['action']=='delete'){
     if(isset($_GET['id'])){
       $id = $_GET['id'];
       $sql = "DELETE FROM guest_list WHERE guest_id = $id";
-      $delete = $conn->query($sql);
-        if ($delete) { 
+      $result = $conn->query($sql);
+        if (($result)) { 
         $mesg = "Record deleted successfully";
+
       } else {
         $mesg_err =  "Error deleting record";
       }
-    $conn->close();
     }
 }
-else{
+
+// query for showing the data from database
   $sql = "SELECT * FROM guest_list";
   $result = $conn->query($sql);
-  
   if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
       $guest_data[] = $row;
@@ -33,13 +37,13 @@ else{
     $no_data =  "No Record Found :)";
   }
   $conn->close();
-}
+
+
 ?>
 <main class="main" id="main">
   <div class="my-guest container">
     <h1 class="text-center">Guest List</h1>
     <div class="row py-3">
-      <?php //var_dump($guest_data); exit;?>
       <div class="col-lg-12 ml-5">
         <a href="<?php echo BASE_URL; ?>guests/add-guest.php"><button type="submit" class="mb-3 add-guest-btn"><i class="bi bi-plus"></i>Add New Guest</button></a>
         <div class="card rounded shadow border-0">
@@ -77,7 +81,7 @@ else{
                   </tbody>
                 </table>
                 <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div> 
-              <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err; ?><?php if (isset($no_data)) echo $no_data; ?></div>
+              <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err;?><?php if (isset($no_data)) echo $no_data; ?></div>
             </div>
           </div>
         </div>

@@ -1,14 +1,20 @@
 <?php
 require_once("dbConn/db.php");
 
-$usernameErr = $nameErr = $emailErr = $passwordErr = "";
-$username = $name = $email = $password = "";
+$usernameErr= $nameErr= $emailErr= $passwordErr= $addressErr= $numberErr= "";
+$username= $name= $email= $password= $number= $address= "";
 if (isset($_POST['register_btn'])) {
   if (!empty($_POST['username'])) $username = $_POST['username'];
   else $usernameErr = "Username is required";
 
   if (!empty($_POST['name'])) $name = $_POST['name'];
   else $nameErr = "Name is required";
+
+  if (!empty($_POST['address'])) $address = $_POST['address'];
+  else $addressErr = "Address is required";
+
+  if (!empty($_POST['number'])) $number = $_POST['number'];
+  else $numberErr = "Number is required";
 
   if (!empty($_POST['email'])) $email = $_POST['email'];
   else $emailErr = "Email is required";
@@ -22,7 +28,7 @@ if (isset($_POST['register_btn'])) {
     if ($result->num_rows > 0) {
       $email_exist = "This email already exists.";
     } else {
-      $sql = "INSERT INTO register_users (username, name, email, password)  VALUES ('$username', '$name', '$email', '$password')";
+      $sql = "INSERT INTO register_users (username, name, address, email, number, password)  VALUES ('$username', '$name', '$address', '$email', '$number', '$password')";
       if ($conn->query($sql) === TRUE) {
         $regestered_mesg = "Registered successfully";
         header('Location: http://localhost/guest_mgmt/pages-login.php?message='.$regestered_mesg);
@@ -106,10 +112,23 @@ if (isset($_POST['register_btn'])) {
                         <div class="invalid-feedback">Please choose a username.</div>
                       </div>
                     </div>
+
                     <div class="col-12">
                       <label for="yourName" class="form-label">Your Name</label>
                       <input type="text" name="name" class="form-control" id="yourName" value="<?php echo $name ?>" required>
                       <div class="invalid-feedback">Please, enter your name!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourAddress" class="form-label">Your Address</label>
+                      <textarea name="address" class="form-control" id="yourAddress" value="<?php echo $address ?>" required></textarea>
+                      <div class="invalid-feedback">Please, enter your address!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourNumber" class="form-label">Your Contact Number</label>
+                      <input type="number" name="number" class="form-control" id="yourNumber" value="<?php echo $number ?>" required>
+                      <div class="invalid-feedback">Please, enter your contact number!</div>
                     </div>
 
                     <div class="col-12">

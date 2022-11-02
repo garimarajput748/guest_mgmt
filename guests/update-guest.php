@@ -7,6 +7,7 @@ require_once("../path.php");
 require_once(SITE_ROOT_DIR_PATH . "include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
+//query for edit the data
 $guest_data = array();
  if($_GET['action'] && $_GET['action']=='edit'){
     if(isset($_GET['id'])){
@@ -22,9 +23,10 @@ $guest_data = array();
       }
     }
   }
-  else{
+else $mesg_err = "Record not found to be edit";
+//query for updating new data
     if (isset($_POST["update"])) {
-        if (empty($_POST['name']) && empty($_POST['number']) && empty($_POST['address']) && empty($_POST['relationship'])) $err = "All fields are required*"; 
+        if (empty($_POST['name']) && empty($_POST['number']) && empty($_POST['address']) && empty($_POST['relationship'])) return; 
         $name = $_POST['name'];
         $number = $_POST['number'];
         $address = $_POST['address'];
@@ -34,16 +36,15 @@ $guest_data = array();
             if(!empty($id)){
                 $sql = "UPDATE guest_list SET guest_name = '$name',guest_mobile = '$number',guest_address = '$address',relationship = '$relationship' WHERE guest_id = $id";
                 $result = $conn->query($sql);
-                if($result->num_rows > 0){
+                if($result){
                     $mesg = "Record Updated Successfully";
                 }
                 else{
-                    $err = "No Record Updated";
+                    $mesg_err = "No Record Updated";
                 }
-            }
+            } else $mesg_err = "No Record found to be edited";
         }
     }
-  }
   $conn->close();
 
 ?>
@@ -69,6 +70,10 @@ $guest_data = array();
                         <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3 py-3">Relationship
                             <span class="text-danger"> *</span></label> 
                             <input type="text" id="mob" name="relationship" value="<?php echo $guest_data[0]['relationship'] ?>"> </div>
+                        </div>
+                        <div class="row justify-content-between mt-2">
+                            <div class="text-success"><?php if(isset($mesg)) echo $mesg;?></div>
+                            <div class="text-danger"><?php if(isset($mesg_err)) echo $mesg_err;?></div>
                         </div>
                     <div class="row justify-content-end">
                         <div class="form-group col-sm-6 py-3"> <button type="submit" class="add-guest-btn" name="update">Update & Save</button> </div>
