@@ -34,6 +34,8 @@ if ($_GET['action'] && $_GET['action']=='delete'){
       $guest_data[] = $row;
     }
   } else {
+    $sql = "ALTER TABLE guest_list AUTO_INCREMENT = 1";
+    $conn->query($sql);
     $no_data =  "No Record Found :)";
   }
   $conn->close();

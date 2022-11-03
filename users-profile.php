@@ -50,9 +50,9 @@ if (!empty($email)) {
         if ($password === $oldPassword && $newPassword === $renewpassword) {
             $sql = "UPDATE register_users SET password = '$renewpassword' WHERE email = '$email'";
             $result = $conn->query($sql);
-            if ($result === TRUE) $mesg = "Password Updated Successfully";
-            else $mesg_err = "No Password Updated";
-        } else $mesg_err = "Password does not matched";
+            if ($result === TRUE) $passwrdmesg = "Password Updated Successfully";
+            else $passwrdmesg_err = "No Password Updated";
+        } else $notMatched = "Password does not matched";
     }
     $conn->close();
 } else return false;
@@ -277,9 +277,9 @@ if (!empty($email)) {
                                             <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                                         </div>
                                     </div>
-                                    <span class="text-success"><?php if (isset($mesg)) echo $mesg; ?></span>
-                                    <span class="text-danger"><?php if (isset($mesg_err)) echo $mesg_err; ?></span>
-                                    <span class="text-danger"><?php if (isset($err)) echo $err; ?></span>
+                                    <span class="text-success"><?php if (isset($passwrdmesg)) echo $passwrdmesg; ?></span>
+                                    <span class="text-danger"><?php if (isset($passwrdmesg_err)) echo $passwrdmesg_err; if (isset($notMatched)) echo $notMatched;?></span>
+                                    
 
                                     <div class="text-center">
                                         <button type="submit" name="updatePassword" class="btn btn-primary">Change Password</button>

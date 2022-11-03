@@ -18,7 +18,15 @@
           <i class="bi bi-person"></i>
           <span>My Guests</span>
         </a>
-      </li><!-- End Profile Page Nav -->
+      </li><!-- End Guests Page Nav -->
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="<?php echo BASE_URL; ?>events/events.php">
+          <i class="bi bi-calendar2-event"></i>
+          <span>Events</span>
+        </a>
+      </li>
+      <!-- End Events Page Nav -->
 
 
     </ul>
