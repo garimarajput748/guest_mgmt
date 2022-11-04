@@ -7,11 +7,37 @@ require_once("../path.php");
 require_once(SITE_ROOT_DIR_PATH . "include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php"); 
+
+// add new event into database 
+if(isset($_POST['saveEvent'])){
+  if(!empty($_POST['eventName']))$eventName = $_POST['eventName'];
+  else $eventNameErr = "Please enter Event Name";
+  if(!empty($_POST['countGuests'])) $countGuests = $_POST['countGuests'];
+   else $countGuestsErr = "Please enter No. of Guests";
+  if(!empty($_POST['venueAddress'])) $venueAddress = $_POST['venueAddress'];
+   else $venueAddressErr = "Please enter Address of Event";
+  if(!empty($_POST['newDateEvent'])) $newDateEvent = $_POST['newDateEvent'];
+   else $newDateEventErr = "Please enter date of Event";
+   if (!empty($eventName) && !empty($countGuests) && !empty($venueAddress) && !empty($newDateEvent)) {
+    $sql = "INSERT INTO event_list (eventName,totalGuests,venue,eventDate) VALUES ('$eventName','$countGuests','$venueAddress','$newDateEvent')";
+      if ($conn->query($sql) === TRUE) {
+          $event = "Event Created Successfully :)";
+      } else {
+          $noEvent = "Something Went Wrong :(";
+      }
+    }
+    else {
+        $all_fields_err = "All Fields need to be fill **";
+    }
+$conn->close();
+
+}
 ?>
 <!-- create events  -->
 <main class="main" id="main">
-<div class="my-guest container">
+<div class="my-guest container" id="events">
     <h1 class="text-center">Events</h1>
+    <?php //var_dump($newDateEvent);?>
     <div class="row py-3">
       <div class="col-lg-12 ml-5">
         <!-- Button trigger modal -->
@@ -62,29 +88,31 @@ require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header text-center">
-            <h5 class="modal-title" id="exampleModalLabel">New Event</h5>
+            <h5 class="modal-title" id="addNewEvent">New Event</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form class="row g-3">
+            <form class="row g-3" method="POST" id="addEventsForm">
               <div class="col-md-6">
                 <label for="eventName" class="form-label">Event Name:</label>
-                <input type="text" class="form-control" id="eventName">
+                <input type="text" class="form-control eventFields" name="eventName" id="eventName" value="<?php echo(isset($eventName)) ? $eventName: ''; ?>">
               </div>
               <div class="col-md-6">
                 <label for="countGuests" class="form-label">No. of Guests:</label>
-                <input type="text" class="form-control" id="countGuests">
+                <input type="number" class="form-control eventFields" name="countGuests" id="countGuests" value="<?php echo(isset($countGuests)) ? $countGuests: ''; ?>">
               </div>
               <div class="col-md-6">
                 <label for="venueAddress" class="form-label">Venue:</label>
-                <textarea class="form-control" id="venueAddress" placeholder="1234 Main St"></textarea>
+                <textarea class="form-control eventFields" rows=1 name="venueAddress" id="venueAddress" placeholder="1234 Main St"><?php echo(isset($venueAddress)) ? $venueAddress: ''; ?></textarea>
               </div>
               <div class="col-md-6">
                 <label for="dateEvent" class="form-label">Date:</label>
-                <input type="date" class="form-control" id="newDateEvent">
+                <input type="date" class="form-control eventFields" name="newDateEvent" id="newDateEvent"  value="<?php echo(isset($newDateEvent)) ? $newDateEvent: ''; ?>"min="<?php echo date("j F Y") ?>">
               </div>
+              <span class="text-success"><?php if (isset($event)) echo $event; ?></span>
+              <span class="text-danger"><?php if (isset($noEvent)) echo $noEvent; if (isset($all_fields_err)) echo $all_fields_err;?></span>
               <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary" name="newEvent">Save</button>
+                <button type="submit" class="btn btn-primary" name="saveEvent" id="saveEvent">Save</button>
               </div>
             </form>
           </div>

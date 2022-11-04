@@ -318,3 +318,20 @@
   }
 
 })();
+
+// reset form values on-click
+var form = document.getElementById('addEventsForm');
+form.addEventListener('click', function(event) {
+  formReset();
+});
+function formReset()
+{
+      document.getElementById("addEventsForm").reset();
+  }
+// console.log(frm.children);
+// function submitForm() {
+  // frm.submit(); // Submit the form
+  // frm.reset();  // Reset all form data
+  // return false; // Prevent page refresh
+// }
+// date-validation of events 

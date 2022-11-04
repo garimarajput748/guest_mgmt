@@ -65,7 +65,7 @@ if (isset($_POST["add_guest"])) {
                                                 <span class="text-danger"><?php if(isset ($number_err)) echo $number_err; ?></span> 
                                             </td>
                                             <td>
-                                                <textarea name="address" placeholder="Please Enter Address" value="<?php echo(isset($address)) ? $address: ''; ?>"></textarea>
+                                                <textarea name="address" placeholder="Please Enter Address"><?php echo(isset($address)) ? $address: ''; ?></textarea>
                                                 <span class="text-danger"><?php if(isset ($address_err)) echo $address_err; ?></span>
                                             </td>
                                             <td>
