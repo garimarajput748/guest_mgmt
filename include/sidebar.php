@@ -1,34 +1,29 @@
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+<?php
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+/**
+ * menu_name = is display menu in sidebar
+ */
+$sidebar_menu_arr = array(
+  array("menu_name" => "Dashboard", "menu_link" => BASE_URL, "icon" => "bi bi-grid"),
+  array("menu_name" => "My Guest", "menu_link" => BASE_URL . "guests/total-guests.php", "icon" => "bi bi-people"),
+  array("menu_name" => "Event", "menu_link" => BASE_URL . "events/events.php", "icon" => "bi bi-calendar2-event")
+);
 
-      <li class="nav-item">
-        <a class="nav-link " href="<?php echo BASE_URL; ?>">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+?>
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
 
+  <ul class="sidebar-nav" id="sidebar-nav">
+    <?php
+    foreach ($sidebar_menu_arr as $menu_details) {
+      echo '<li class="nav-item">
+          <a class="nav-link " href="' . $menu_details['menu_link'] . '">
+            <i class="' . $menu_details['icon'] . '"></i>
+            <span>' . $menu_details['menu_name'] . '</span>
+          </a>
+        </li>';
+    }
+    ?>
+  </ul>
 
-      <li class="nav-heading">Pages</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="<?php echo BASE_URL; ?>guests/total-guests.php">
-          <i class="bi bi-person"></i>
-          <span>My Guests</span>
-        </a>
-      </li><!-- End Guests Page Nav -->
-      
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="<?php echo BASE_URL; ?>events/events.php">
-          <i class="bi bi-calendar2-event"></i>
-          <span>Events</span>
-        </a>
-      </li>
-      <!-- End Events Page Nav -->
-
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->

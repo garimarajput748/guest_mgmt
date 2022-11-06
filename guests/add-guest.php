@@ -57,7 +57,7 @@ if (isset($_POST["add_guest"])) {
                                     <tbody>
                                         <tr class="text-center">
                                             <td>
-                                                <input type="text" name="name" placeholder="Please Enter Guest Name" value="<?php echo(isset($name)) ? $name: ''; ?>">
+                                                <input class="form-control" type="text" name="name" placeholder="Please Enter Guest Name" value="<?php echo(isset($name)) ? $name: ''; ?>">
                                                 <span class="text-danger"><?php if(isset ($name_err)) echo $name_err; ?></span>
                                             </td>
                                             <td>
