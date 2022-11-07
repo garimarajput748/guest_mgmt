@@ -19,6 +19,7 @@
   <script src="<?php echo VENDOR_HTTP; ?>simple-datatables/simple-datatables.js"></script>
   <script src="<?php echo VENDOR_HTTP; ?>tinymce/tinymce.min.js"></script>
   <script src="<?php echo VENDOR_HTTP; ?>php-email-form/validate.js"></script>
+  <script src="<?php echo VENDOR_HTTP; ?>jquery-3.6.1.min.js"></script>
 
 
   <!-- Template Main JS File -->

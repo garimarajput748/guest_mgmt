@@ -324,18 +324,16 @@
 // form.addEventListener('click', function(event) {
 //   formReset();
 // });
-function formReset()
-{
-    // document.getElementById("addEventsForm").reset();
-    document.getElementById('eventName').value = "";
-    document.getElementById('countGuests').value = "";
-    document.getElementById('venueAddress').value = "";
-    document.getElementById('newDateEvent').value = "";
-}
-// console.log(frm.children);
-// function submitForm() {
-  // frm.submit(); // Submit the form
-  // frm.reset();  // Reset all form data
-  // return false; // Prevent page refresh
-// }
+// function formReset()
+// {
+//     document.getElementById("addEventForm").reset();
+
+// $(document).ready(function() {
+
+//   $(document).on('hidden.bs.modal', function (e) {
+//     $(e.target).removeData('bs.modal');
+// });
+
+// });
+
 // date-validation of events 

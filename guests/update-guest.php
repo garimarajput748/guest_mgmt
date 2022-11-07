@@ -54,22 +54,22 @@ else $mesg_err = "Record not found to be edit";
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
             <h1>Update Guest Data</h1>
             <div class="card">
-                <form class="form-card" method="POST">
+                <form class="form-card m-3" method="POST">
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3 py-3">Guest Name
                             <span class="text-danger"> *</span></label> 
-                            <input type="text" id="fname" name="name" value="<?php echo $guest_data[0]['guest_name'] ?>"> </div>
+                            <input type="text" class="form-control" id="fname" name="name" value="<?php echo $guest_data[0]['guest_name'] ?>"> </div>
                         <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3 py-3">Guest Mobile Number
                             <span class="text-danger"> *</span></label> 
-                            <input type="text" id="lname" name="number" value="<?php echo $guest_data[0]['guest_mobile'] ?>"> </div>
+                            <input type="text" class="form-control" id="lname" name="number" value="<?php echo $guest_data[0]['guest_mobile'] ?>"> </div>
                     </div>
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3 py-3">Guest Address
                             <span class="text-danger"> *</span></label> 
-                            <input type="text" id="email" name="address" value="<?php echo $guest_data[0]['guest_address'] ?>"> </div>
+                            <input type="text" class="form-control" id="email" name="address" value="<?php echo $guest_data[0]['guest_address'] ?>"> </div>
                         <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3 py-3">Relationship
                             <span class="text-danger"> *</span></label> 
-                            <input type="text" id="mob" name="relationship" value="<?php echo $guest_data[0]['relationship'] ?>"> </div>
+                            <input type="text" class="form-control" id="mob" name="relationship" value="<?php echo $guest_data[0]['relationship'] ?>"> </div>
                         </div>
                         <div class="row justify-content-between mt-2">
                             <div class="text-success"><?php if(isset($mesg)) echo $mesg;?></div>
