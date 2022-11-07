@@ -76,7 +76,7 @@ else $mesg_err = "Record not found to be edit";
                             <div class="text-danger"><?php if(isset($mesg_err)) echo $mesg_err;?></div>
                         </div>
                     <div class="row justify-content-end">
-                        <div class="form-group col-sm-6 py-3"> <button type="submit" class="add-guest-btn" name="update">Update & Save</button> </div>
+                        <div class="form-group col-sm-6 py-3"> <button type="submit" class="add-btn" name="update">Update & Save</button> </div>
                     </div>
                 </form>
             </div>

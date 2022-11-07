@@ -18,6 +18,7 @@ if(isset($_POST['saveEvent'])){
    else $venueAddressErr = "Please enter Address of Event";
   if(!empty($_POST['newDateEvent'])) $newDateEvent = $_POST['newDateEvent'];
    else $newDateEventErr = "Please enter date of Event";
+   $success = '';
    if (!empty($eventName) && !empty($countGuests) && !empty($venueAddress) && !empty($newDateEvent)) {
     $sql = "INSERT INTO event_list (eventName,totalGuests,venue,eventDate) VALUES ('$eventName','$countGuests','$venueAddress','$newDateEvent')";
       if ($conn->query($sql) === TRUE) {
@@ -28,6 +29,7 @@ if(isset($_POST['saveEvent'])){
     }
     else {
         $all_fields_err = "All Fields need to be fill **";
+        $success = '';
     }
 $conn->close();
 
@@ -41,7 +43,7 @@ $conn->close();
     <div class="row py-3">
       <div class="col-lg-12 ml-5">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addEvent"><i class="bi bi-plus"></i>Add New Event</button>
+        <button type="button" class="btn mb-3 add-btn" data-bs-toggle="modal" data-bs-target="#addEvent"><i class="bi bi-plus"></i>Add New Event</button>
         <div class="card rounded shadow border-0">
           <div class="card-body p-5 bg-white rounded">
             <div class="table-responsive">
@@ -95,19 +97,19 @@ $conn->close();
             <form class="row g-3" method="POST" id="addEventsForm">
               <div class="col-md-6">
                 <label for="eventName" class="form-label">Event Name:</label>
-                <input type="text" class="form-control eventFields" name="eventName" id="eventName" value="<?php echo(isset($eventName)) ? $eventName: ''; ?>">
+                <input type="text" class="form-control eventFields" name="eventName" id="eventName" value="<?php echo(isset($eventName) && $success == '') ? $eventName: ''; ?>">
               </div>
               <div class="col-md-6">
                 <label for="countGuests" class="form-label">No. of Guests:</label>
-                <input type="number" class="form-control eventFields" name="countGuests" id="countGuests" value="<?php echo(isset($countGuests)) ? $countGuests: ''; ?>">
+                <input type="number" class="form-control eventFields" name="countGuests" id="countGuests" value="<?php echo(isset($countGuests) && $success == '') ? $countGuests: ''; ?>">
               </div>
               <div class="col-md-6">
                 <label for="venueAddress" class="form-label">Venue:</label>
-                <textarea class="form-control eventFields" rows=1 name="venueAddress" id="venueAddress" placeholder="1234 Main St"><?php echo(isset($venueAddress)) ? $venueAddress: ''; ?></textarea>
+                <textarea class="form-control eventFields" rows=1 name="venueAddress" id="venueAddress" placeholder="1234 Main St"><?php echo(isset($venueAddress) && $success == '') ? $venueAddress: ''; ?></textarea>
               </div>
               <div class="col-md-6">
                 <label for="dateEvent" class="form-label">Date:</label>
-                <input type="date" class="form-control eventFields" name="newDateEvent" id="newDateEvent"  value="<?php echo(isset($newDateEvent)) ? $newDateEvent: ''; ?>"min="<?php echo date("j F Y") ?>">
+                <input type="date" class="form-control eventFields" name="newDateEvent" id="newDateEvent"  value="<?php echo(isset($newDateEvent) && $success == '') ? $newDateEvent: ''; ?>"min="<?php echo date("j F Y") ?>">
               </div>
               <span class="text-success"><?php if (isset($event)) echo $event; ?></span>
               <span class="text-danger"><?php if (isset($noEvent)) echo $noEvent; if (isset($all_fields_err)) echo $all_fields_err;?></span>

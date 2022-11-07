@@ -320,14 +320,18 @@
 })();
 
 // reset form values on-click
-var form = document.getElementById('addEventsForm');
-form.addEventListener('click', function(event) {
-  formReset();
-});
+// var form = document.getElementById('addEventsForm');
+// form.addEventListener('click', function(event) {
+//   formReset();
+// });
 function formReset()
 {
-      document.getElementById("addEventsForm").reset();
-  }
+    // document.getElementById("addEventsForm").reset();
+    document.getElementById('eventName').value = "";
+    document.getElementById('countGuests').value = "";
+    document.getElementById('venueAddress').value = "";
+    document.getElementById('newDateEvent').value = "";
+}
 // console.log(frm.children);
 // function submitForm() {
   // frm.submit(); // Submit the form

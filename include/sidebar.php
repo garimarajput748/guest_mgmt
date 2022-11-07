@@ -17,7 +17,7 @@ $sidebar_menu_arr = array(
     <?php
     foreach ($sidebar_menu_arr as $menu_details) {
       echo '<li class="nav-item">
-          <a class="nav-link " href="' . $menu_details['menu_link'] . '">
+          <a class="nav-link collapsed" href="' . $menu_details['menu_link'] . '">
             <i class="' . $menu_details['icon'] . '"></i>
             <span>' . $menu_details['menu_name'] . '</span>
           </a>

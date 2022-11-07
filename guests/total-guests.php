@@ -47,7 +47,7 @@ if ($_GET['action'] && $_GET['action']=='delete'){
     <h1 class="text-center">Guest List</h1>
     <div class="row py-3">
       <div class="col-lg-12 ml-5">
-        <a href="<?php echo BASE_URL; ?>guests/add-guest.php"><button type="submit" class="mb-3 add-guest-btn"><i class="bi bi-plus"></i>Add New Guest</button></a>
+        <a href="<?php echo BASE_URL; ?>guests/add-guest.php"><button type="submit" class="mb-3 add-btn"><i class="bi bi-plus"></i>Add New Guest</button></a>
         <div class="card rounded shadow border-0">
           <div class="card-body p-5 bg-white rounded">
             <div class="table-responsive">

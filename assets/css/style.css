@@ -854,7 +854,7 @@ h6 {
   min-height: 100vh;
   background-color: #f6f9ff;
 }
-.my-guest .add-guest-btn {
+.my-guest .add-btn {
   all: unset;
   color: #ffffff;
   background-color: #58c4c8;

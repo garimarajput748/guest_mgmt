@@ -40,7 +40,7 @@ if (isset($_POST["add_guest"])) {
         <h1 class="text-center">Add New Guest</h1>
         <div class="row py-3">
             <div class="col-lg-12 ml-5">
-                <a href="<?php echo BASE_URL; ?>guests/total-guests.php"><button type="submit" class="mb-3 add-guest-btn"><i class="bi bi-person-heart"></i> See Guest List</button></a>
+                <a href="<?php echo BASE_URL; ?>guests/total-guests.php"><button type="submit" class="mb-3 add-btn"><i class="bi bi-person-heart"></i> See Guest List</button></a>
                 <div class="card rounded shadow border-0">
                     <div class="card-body p-5 bg-white rounded">
                         <form method="POST">
@@ -61,21 +61,21 @@ if (isset($_POST["add_guest"])) {
                                                 <span class="text-danger"><?php if(isset ($name_err)) echo $name_err; ?></span>
                                             </td>
                                             <td>
-                                                <input type="number" name="number" class="contact-number" placeholder="Please Enter Guest Mobile Number" value="<?php echo(isset($number)) ? $number: ''; ?>">
+                                                <input type="number" name="number" class="form-control" placeholder="Please Enter Guest Mobile Number" value="<?php echo(isset($number)) ? $number: ''; ?>">
                                                 <span class="text-danger"><?php if(isset ($number_err)) echo $number_err; ?></span> 
                                             </td>
                                             <td>
-                                                <textarea name="address" placeholder="Please Enter Address"><?php echo(isset($address)) ? $address: ''; ?></textarea>
+                                                <textarea name="address" class="form-control" placeholder="Please Enter Address"><?php echo(isset($address)) ? $address: ''; ?></textarea>
                                                 <span class="text-danger"><?php if(isset ($address_err)) echo $address_err; ?></span>
                                             </td>
                                             <td>
-                                                <input type="text" name="relationship" placeholder="Relationship with Guest" value="<?php echo(isset($relationship)) ? $relationship: ''; ?>">
+                                                <input type="text" class="form-control" name="relationship" placeholder="Relationship with Guest" value="<?php echo(isset($relationship)) ? $relationship: ''; ?>">
                                                 <span class="text-danger"><?php if(isset ($relationship_err)) echo $relationship_err; ?></span>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="text-center"><button class="add-guest-btn" type="submit" name="add_guest">Add <i class="bi bi-person-plus-fill"></i> </button></div>
+                                <div class="text-center"><button class="add-btn" type="submit" name="add_guest">Add <i class="bi bi-person-plus-fill"></i> </button></div>
                                 <div class="text-center mt-2 text-success"><?php if (isset($data)) echo $data;?> <span class="text-danger"><?php if (isset($no_data)) echo $no_data; if (isset($all_fields_err)) echo $all_fields_err;?></span></div>
                         </form>
                     </div>
