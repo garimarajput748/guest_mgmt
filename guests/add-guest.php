@@ -42,6 +42,7 @@ if (isset($_POST["add_guest"])) {
             <div class="col-lg-12 ml-5">
                 <a href="<?php echo BASE_URL; ?>guests/total-guests.php"><button type="submit" class="mb-3 add-btn"><i class="bi bi-person-heart"></i> See Guest List</button></a>
                 <div class="card rounded shadow border-0">
+                    <a href="<?php echo BASE_URL; ?>guests/total-guests.php"><span class="text-danger float-end btn-close"></span></a>
                     <div class="card-body p-5 bg-white rounded">
                         <form method="POST">
                             <div class="table-responsive">

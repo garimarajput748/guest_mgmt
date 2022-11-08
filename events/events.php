@@ -19,7 +19,7 @@ if ($result->num_rows > 0) {
 } else {
   $sql = "ALTER TABLE event_list AUTO_INCREMENT = 1";
   $conn->query($sql);
-  $no_data =  "No Record Found :)";
+  $no_data =  "No Event Found :)";
 }
 
 // add new event into database 
@@ -46,21 +46,14 @@ if(isset($_POST['saveEvent'])){
     }
   }
 
-  //edit data in table and update it into db
-  if($_GET['action'] && $_GET['action']=='edit'){
-    if(!isset($_GET['id'])) $err = "Data not found to deleted";
+  //delete event query
+  if($_GET['action'] && $_GET['action']=='delete'){
+    if(!isset($_GET['id'])) $mesg_err = "Event not found to delete";
       $id = $_GET['id'];
-        $sql = "SELECT * from event_list WHERE id = $id";
+        $sql = "DELETE from event_list WHERE id = $id";
         $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-            $update_data[] = $row;
-            $updateEventName = $update_data[0]['eventName'];
-            $updateTotalGuests = $update_data[0]['totalGuests'];
-            $updateVenue = $update_data[0]['venue'];
-            $updateEventDate = $update_data[0]['eventDate'];
-          }
-        }
+        if($result) $mesg = "Event Deleted Successfully";
+        else $mesg_err = "Event not found to be delete";
   }
 
 
@@ -97,7 +90,7 @@ if(isset($_POST['saveEvent'])){
                       <td><?php echo $data['venue']; ?></td>
                       <td><?php echo $data['eventDate']; ?></td>
                       <td>
-                        <a href="<?php BASE_URL ?>?action=edit&id=<?php echo $data['id']?>" data-bs-toggle="modal" data-bs-target="#updateEvent" title="edit this">
+                        <a href="<?php BASE_URL ?>editevent.php?action=edit&id=<?php echo $data['id']?>">
                           <i class="bi bi-pencil-square edit"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
                         <a href="<?php BASE_URL ?>?action=delete&id=<?php echo $data['id']?>" title="delete this">
@@ -108,8 +101,8 @@ if(isset($_POST['saveEvent'])){
                     <?php } ?>
                   </tbody>
                 </table>
-                <div class="text-center text-success"><?php //if (isset($mesg)) echo $mesg; ?></div> 
-              <div class="text-center text-danger"><?php //if (isset($mesg_err)) echo $mesg_err;?><?php if (isset($no_data)) echo $no_data; ?></div>
+                <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div> 
+              <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err;?><?php if (isset($no_data)) echo $no_data; ?></div>
             </div>
           </div>
         </div>
@@ -153,51 +146,6 @@ if(isset($_POST['saveEvent'])){
               </div>
               <div class="col-12 text-center">
                 <a href="<?php BASE_URL ?>"><button type="submit" class="btn btn-primary" name="saveEvent" id="saveEvent">Save</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
-  </form>
-
-  <!-- update event by modal popup -->
-  <form class="row g-3" method="POST" id="updateEventForm">
-   <div class="modal fade" id="updateEvent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header text-center">
-            <h5 class="modal-title" id="updateNewEvent">Update Event</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="row"> 
-              <div class="col-md-6">
-                <label for="eventName" class="form-label">Event Name:</label>
-                <input type="text" class="form-control eventFields" name="eventName" id="eventName" value="<?php echo(isset($updateEventName)) ? $updateEventName: ''; ?>">
-              </div>
-              <div class="col-md-6">
-                <label for="countGuests" class="form-label">No. of Guests:</label>
-                <input type="number" class="form-control eventFields" name="countGuests" id="countGuests" value="<?php echo(isset($updateTotalGuests)) ? $updateTotalGuests: ''; ?>">
-              </div>
-            </div>
-            <div class="row"> 
-              <div class="col-md-6">
-                <label for="venueAddress" class="form-label">Venue:</label>
-                <textarea class="form-control eventFields" rows=1 name="venueAddress" id="venueAddress" placeholder="1234 Main St"><?php echo(isset($updateVenue)) ? $updateVenue: ''; ?></textarea>
-              </div>
-              <div class="col-md-6">
-                <label for="dateEvent" class="form-label">Date:</label>
-                <input type="date" class="form-control eventFields" name="newDateEvent" id="newDateEvent"  value="<?php echo(isset($updateEventDate)) ? $updateEventDate: ''; ?>"min="<?php echo date("j F Y") ?>">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <span class="text-success"><?php //if (isset($event)) echo $event; ?></span>
-                <span class="text-danger"><?php //if (isset($noEvent)) echo $noEvent; if (isset($all_fields_err)) echo $all_fields_err;?></span>
-              </div>
-              <div class="col-12 text-center">
-                <a href="<?php BASE_URL ?>"><button type="submit" class="btn btn-primary" name="updateEvent" id="updateEvent">Save</button></a>
               </div>
             </div>
           </div>

@@ -17,12 +17,8 @@ if ($_GET['action'] && $_GET['action']=='delete'){
       $id = $_GET['id'];
       $sql = "DELETE FROM guest_list WHERE guest_id = $id";
       $result = $conn->query($sql);
-        if (($result)) { 
-        $mesg = "Record deleted successfully";
-
-      } else {
-        $mesg_err =  "Error deleting record";
-      }
+        if ($result) $mesg = "Record deleted successfully"; 
+        else $mesg_err =  "Error deleting record";
     }
 }
 
