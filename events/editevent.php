@@ -69,7 +69,7 @@ $conn->close();
                       <div class="row justify-content-between text-left">
                           <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3 py-3">Venue
                               <span class="text-danger"> *</span></label> 
-                              <textarea class="form-control" name="address"> <?php echo(isset($editVenue)) ? $editVenue: ''; ?></textarea></div>
+                              <textarea class="form-control" rows="1" name="address"> <?php echo(isset($editVenue)) ? $editVenue: ''; ?></textarea></div>
                           <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3 py-3">Event Date
                               <span class="text-danger"> *</span></label> 
                               <input type="date" class="form-control" name="date" value="<?php echo(isset($editEventDate)) ? $editEventDate: ''; ?>"> </div>

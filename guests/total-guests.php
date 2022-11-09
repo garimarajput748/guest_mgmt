@@ -11,17 +11,6 @@ require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
 
 $guest_data = array();
 
-// query for delete data from database
-if ($_GET['action'] && $_GET['action']=='delete'){
-    if(isset($_GET['id'])){
-      $id = $_GET['id'];
-      $sql = "DELETE FROM guest_list WHERE guest_id = $id";
-      $result = $conn->query($sql);
-        if ($result) $mesg = "Record deleted successfully"; 
-        else $mesg_err =  "Error deleting record";
-    }
-}
-
 // query for showing the data from database
   $sql = "SELECT * FROM guest_list";
   $result = $conn->query($sql);
@@ -34,6 +23,18 @@ if ($_GET['action'] && $_GET['action']=='delete'){
     $conn->query($sql);
     $no_data =  "No Record Found :)";
   }
+  
+// query for delete data from database
+if ($_GET['action'] && $_GET['action']=='delete'){
+  if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    $sql = "DELETE FROM guest_list WHERE guest_id = $id";
+    $result = $conn->query($sql);
+      if ($result) $mesg = "Record deleted successfully"; 
+      else $mesg_err =  "Error deleting record";
+  }
+}
+
   $conn->close();
 
 
