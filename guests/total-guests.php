@@ -8,10 +8,8 @@ require_once(SITE_ROOT_DIR_PATH . "include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
 
-
-$guest_data = array();
-
 // query for showing the data from database
+$guest_data = array();
   $sql = "SELECT * FROM guest_list";
   $result = $conn->query($sql);
   if ($result->num_rows > 0) {
@@ -34,8 +32,18 @@ if ($_GET['action'] && $_GET['action']=='delete'){
       else $mesg_err =  "Error deleting record";
   }
 }
-
   $conn->close();
+
+  //  for send invitation to selected guest 
+if ($_GET['action'] && $_GET['action']=='sendinvitation'){
+    $sendInvitation =  '<button type="submit" class="mb-3 add-btn" name="invitation">Send Invitation <i class="bi bi-postage-heart"></i></button>';
+}
+
+if(isset($_POST['invitation'])){
+  if (!empty($_POST['check'])){
+    $selectedPersons = $_POST['check'];
+  }
+}
 
 
 ?>
@@ -47,41 +55,46 @@ if ($_GET['action'] && $_GET['action']=='delete'){
         <a href="<?php echo BASE_URL; ?>guests/add-guest.php"><button type="submit" class="mb-3 add-btn"><i class="bi bi-plus"></i>Add New Guest</button></a>
         <div class="card rounded shadow border-0">
           <div class="card-body p-5 bg-white rounded">
-            <div class="table-responsive">
-              <table id="guest-table" style="width:100%" class="table table-striped table-bordered">
-                <thead>
-                  <tr class="text-center">
-                    <th>Sr. No.</th>
-                    <th>Name</th>
-                    <th>Mobile Number</th>
-                    <th>Address</th>
-                    <th>Relationship</th>
-                    <th>Edit / Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($guest_data as $data) { ?>
+            <form method="POST">
+              <div class="table-responsive">
+                <table id="guest-table" style="width:100%" class="table table-striped table-bordered">
+                  <thead>
                     <tr class="text-center">
-                      <td><?php echo $data['guest_id']; ?></td> 
-                      <td><?php echo $data['guest_name']; ?></td>
-                      <td><?php echo $data['guest_mobile']; ?></td>
-                      <td><?php echo $data['guest_address']; ?></td>
-                      <td><?php echo $data['relationship']; ?></td>
-                      <td>
-                        <a href="<?php BASE_URL ?>update-guest.php?action=edit&id=<?php echo $data['guest_id']?>" title="edit this">
-                          <i class="bi bi-pencil-square edit"></i>
-                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
-                        <a href="<?php BASE_URL ?>?action=delete&id=<?php echo $data['guest_id']?>" title="delete this">
-                         <i class="bi bi-trash delete"></i>
-                        </a>
-                      </td>
+                      <th>Sr. No.</th>
+                      <th>Name</th>
+                      <th>Mobile Number</th>
+                      <th>Address</th>
+                      <th>Relationship</th>
+                      <th>Edit / Delete</th>
+                      <th>Select All <input type="checkbox" name="chk-all" value="chk-all" onchange="checkAll(this)"></th>
                     </tr>
-                    <?php } ?>
-                  </tbody>
-                </table>
-                <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div> 
-              <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err;?><?php if (isset($no_data)) echo $no_data; ?></div>
-            </div>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($guest_data as $data) { ?>
+                      <tr class="text-center">
+                        <td><?php echo $data['guest_id']; ?></td> 
+                        <td><?php echo $data['guest_name']; ?></td>
+                        <td><?php echo $data['guest_mobile']; ?></td>
+                        <td><?php echo $data['guest_address']; ?></td>
+                        <td><?php echo $data['relationship']; ?></td>
+                        <td>
+                          <a href="<?php BASE_URL ?>update-guest.php?action=edit&id=<?php echo $data['guest_id']?>" title="edit this">
+                            <i class="bi bi-pencil-square edit"></i>
+                          </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
+                          <a href="<?php BASE_URL ?>?action=delete&id=<?php echo $data['guest_id']?>" title="delete this">
+                          <i class="bi bi-trash delete"></i>
+                          </a>
+                        </td>
+                        <td><input type="checkbox" name="check" onchange="checkChange();" value="<?php echo $data['guest_id']; ?>"></td>
+                      </tr>
+                      <?php } ?>
+                    </tbody>
+                  </table>
+                  <div class="float-end" ><?php echo (isset($sendInvitation))? $sendInvitation: ''; ?></div>
+                  <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div> 
+                <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err;?><?php if (isset($no_data)) echo $no_data; ?></div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

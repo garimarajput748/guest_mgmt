@@ -319,6 +319,33 @@
 
 })();
 
+//selecting or deselecting checkbox
+function checkAll(e) {
+  var checkboxes = document.getElementsByName('check');
+
+  if (e.checked) {
+    for (var i = 0; i < checkboxes.length; i++) { 
+      checkboxes[i].checked = true;
+    }
+  } else {
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = false;
+    }
+  }
+}
+function checkChange(){
+
+  var totalCheckbox = document.querySelectorAll('input[name="check"]').length;
+  var totalChecked = document.querySelectorAll('input[name="check"]:checked').length;
+
+  // When total options equals to total checked option
+  if(totalCheckbox == totalChecked) {
+     document.getElementsByName("chk-all")[0].checked=true;
+  } else {
+     document.getElementsByName("chk-all")[0].checked=false;
+  }
+}
+
 // reset form values on-click
 // var form = document.getElementById('addEventsForm');
 // form.addEventListener('click', function(event) {

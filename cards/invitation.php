@@ -18,7 +18,7 @@ require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
           <div class="card-body">
             <h5 class="card-title text-center">Send Invitation</h5>
             <p class="card-text text-center">Send Invitation from here to your loved once.</p>
-            <div class="text-center"><a href="<?php echo BASE_URL; ?>guests/total-guests.php" class="btn btn-primary">Send Invitation</a></div>
+            <div class="text-center"><a href="<?php echo BASE_URL; ?>guests/total-guests.php?action=sendinvitation" class="btn btn-primary">Send Invitation</a></div>
           </div>
         </div>
       </div>
