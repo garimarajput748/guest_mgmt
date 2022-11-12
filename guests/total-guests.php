@@ -1,8 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION["email"]) && !isset($_SESSION["password"])) {
-  header("location: ./pages-login.php");
-}
 require_once("../path.php");
 require_once(SITE_ROOT_DIR_PATH . "include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
@@ -10,37 +6,37 @@ require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
 
 // query for showing the data from database
 $guest_data = array();
-  $sql = "SELECT * FROM guest_list";
-  $result = $conn->query($sql);
-  if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-      $guest_data[] = $row;
-    }
-  } else {
-    $sql = "ALTER TABLE guest_list AUTO_INCREMENT = 1";
-    $conn->query($sql);
-    $no_data =  "No Record Found :)";
+$sql = "SELECT * FROM guest_list";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $guest_data[] = $row;
   }
-  
+} else {
+  $sql = "ALTER TABLE guest_list AUTO_INCREMENT = 1";
+  $conn->query($sql);
+  $no_data =  "No Record Found :)";
+}
+
 // query for delete data from database
-if ($_GET['action'] && $_GET['action']=='delete'){
-  if(isset($_GET['id'])){
+if (!empty($_GET['action'] )&& $_GET['action'] == 'delete') {
+  if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "DELETE FROM guest_list WHERE guest_id = $id";
     $result = $conn->query($sql);
-      if ($result) $mesg = "Record deleted successfully"; 
-      else $mesg_err =  "Error deleting record";
+    if ($result) $mesg = "Record deleted successfully";
+    else $mesg_err =  "Error deleting record";
   }
 }
-  $conn->close();
+$conn->close();
 
-  //  for send invitation to selected guest 
-if ($_GET['action'] && $_GET['action']=='sendinvitation'){
-    $sendInvitation =  '<button type="submit" class="mb-3 add-btn" name="invitation">Send Invitation <i class="bi bi-postage-heart"></i></button>';
+//  for send invitation to selected guest 
+if (!empty($_GET['action']) && $_GET['action'] == 'sendinvitation') {
+  $sendInvitation =  '<button type="submit" class="mb-3 add-btn" name="invitation">Send Invitation <i class="bi bi-postage-heart"></i></button>';
 }
 
-if(isset($_POST['invitation'])){
-  if (!empty($_POST['check'])){
+if (isset($_POST['invitation'])) {
+  if (!empty($_POST['check'])) {
     $selectedPersons = $_POST['check'];
   }
 }
@@ -72,27 +68,27 @@ if(isset($_POST['invitation'])){
                   <tbody>
                     <?php foreach ($guest_data as $data) { ?>
                       <tr class="text-center">
-                        <td><?php echo $data['guest_id']; ?></td> 
+                        <td><?php echo $data['guest_id']; ?></td>
                         <td><?php echo $data['guest_name']; ?></td>
                         <td><?php echo $data['guest_mobile']; ?></td>
                         <td><?php echo $data['guest_address']; ?></td>
                         <td><?php echo $data['relationship']; ?></td>
                         <td>
-                          <a href="<?php BASE_URL ?>update-guest.php?action=edit&id=<?php echo $data['guest_id']?>" title="edit this">
+                          <a href="<?php BASE_URL ?>update-guest.php?action=edit&id=<?php echo $data['guest_id'] ?>" title="edit this">
                             <i class="bi bi-pencil-square edit"></i>
-                          </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
-                          <a href="<?php BASE_URL ?>?action=delete&id=<?php echo $data['guest_id']?>" title="delete this">
-                          <i class="bi bi-trash delete"></i>
+                          </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <a href="<?php BASE_URL ?>?action=delete&id=<?php echo $data['guest_id'] ?>" title="delete this">
+                            <i class="bi bi-trash delete"></i>
                           </a>
                         </td>
                         <td><input type="checkbox" name="check" onchange="checkChange();" value="<?php echo $data['guest_id']; ?>"></td>
                       </tr>
-                      <?php } ?>
-                    </tbody>
-                  </table>
-                  <div class="float-end" ><?php echo (isset($sendInvitation))? $sendInvitation: ''; ?></div>
-                  <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div> 
-                <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err;?><?php if (isset($no_data)) echo $no_data; ?></div>
+                    <?php } ?>
+                  </tbody>
+                </table>
+                <div class="float-end"><?php echo (isset($sendInvitation)) ? $sendInvitation : ''; ?></div>
+                <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div>
+                <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err; ?><?php if (isset($no_data)) echo $no_data; ?></div>
               </div>
             </form>
           </div>

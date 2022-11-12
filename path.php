@@ -21,6 +21,7 @@ $url = "${protocol}://${domain}${disp_port}/${base_url}/";
 define("SITE_ROOT_DIR_PATH", __DIR__ . "/");
 define("ASSETS_DIR", SITE_ROOT_DIR_PATH . "assets/"); //assets/
 define("VENDOR_DIR", ASSETS_DIR . "vendor/"); //assets/vendor/
+define("CLASSES_DIR", SITE_ROOT_DIR_PATH . "classes/"); //classes/
 
 // directory path in http
 define("BASE_URL", $url); //http URL

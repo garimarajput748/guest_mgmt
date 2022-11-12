@@ -1,10 +1,6 @@
 <?php
-session_start();
-if (!isset($_SESSION["email"]) && !isset($_SESSION["password"])) {
-    header("location: ./pages-login.php");
-}
 require_once("path.php");
-require_once(SITE_ROOT_DIR_PATH . "include/header.php");
+require_once(SITE_ROOT_DIR_PATH."include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
 
@@ -98,19 +94,23 @@ if (!empty($email)) {
                         <ul class="nav nav-tabs nav-tabs-bordered">
 
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                                <button class="nav-link active" data-bs-toggle="tab"
+                                    data-bs-target="#profile-overview">Overview</button>
                             </li>
 
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
+                                    Profile</button>
                             </li>
 
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
+                                <button class="nav-link" data-bs-toggle="tab"
+                                    data-bs-target="#profile-settings">Settings</button>
                             </li>
 
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                                <button class="nav-link" data-bs-toggle="tab"
+                                    data-bs-target="#profile-change-password">Change Password</button>
                             </li>
 
                         </ul>
@@ -122,12 +122,14 @@ if (!empty($email)) {
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label ">Username</div>
-                                    <div class="col-lg-9 col-md-8"><?php if (isset($username)) echo ('@' . $username); ?></div>
+                                    <div class="col-lg-9 col-md-8">
+                                        <?php if (isset($username)) echo ('@' . $username); ?></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Full Name</div>
-                                    <div class="col-lg-9 col-md-8"><?php if (isset($name)) echo (ucwords($name)); ?></div>
+                                    <div class="col-lg-9 col-md-8"><?php if (isset($name)) echo (ucwords($name)); ?>
+                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -142,7 +144,8 @@ if (!empty($email)) {
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Address</div>
-                                    <div class="col-lg-9 col-md-8"><?php if (isset($address)) echo (ucwords($address)); ?></div>
+                                    <div class="col-lg-9 col-md-8">
+                                        <?php if (isset($address)) echo (ucwords($address)); ?></div>
                                 </div>
 
 
@@ -169,35 +172,40 @@ if (!empty($email)) {
                                     <div class="row mb-3">
                                         <label for="Username" class="col-md-4 col-lg-3 col-form-label">Username</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="username" type="text" class="form-control" id="userName" value="<?php echo $username ?>">
+                                            <input name="username" type="text" class="form-control" id="userName"
+                                                value="<?php echo $username ?>">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="name" type="text" class="form-control" id="fullName" value="<?php echo $name ?>">
+                                            <input name="name" type="text" class="form-control" id="fullName"
+                                                value="<?php echo $name ?>">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" value="<?php echo $email ?>" readonly>
+                                            <input name="email" type="email" class="form-control" id="Email"
+                                                value="<?php echo $email ?>" readonly>
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="number" type="number" class="form-control" id="Phone" value="<?php echo $number ?>">
+                                            <input name="number" type="number" class="form-control" id="Phone"
+                                                value="<?php echo $number ?>">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="address" type="text" class="form-control" id="Address" value="<?php echo $address ?>">
+                                            <input name="address" type="text" class="form-control" id="Address"
+                                                value="<?php echo $address ?>">
                                         </div>
                                     </div>
                                     <span class="text-success"><?php if (isset($mesg)) echo $mesg; ?></span>
@@ -205,7 +213,8 @@ if (!empty($email)) {
                                     <span class="text-danger"><?php if (isset($err)) echo $err; ?></span>
 
                                     <div class="text-center">
-                                        <button type="submit" name="updateProfile" class="btn btn-primary">Save Changes</button>
+                                        <button type="submit" name="updateProfile" class="btn btn-primary">Save
+                                            Changes</button>
                                     </div>
                                 </form><!-- End Profile Edit Form -->
 
@@ -217,16 +226,19 @@ if (!empty($email)) {
                                 <form>
 
                                     <div class="row mb-3">
-                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
+                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
+                                            Notifications</label>
                                         <div class="col-md-8 col-lg-9">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                                                <input class="form-check-input" type="checkbox" id="changesMade"
+                                                    checked>
                                                 <label class="form-check-label" for="changesMade">
                                                     Changes made to your account
                                                 </label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="newProducts" checked>
+                                                <input class="form-check-input" type="checkbox" id="newProducts"
+                                                    checked>
                                                 <label class="form-check-label" for="newProducts">
                                                     Information on new products and services
                                                 </label>
@@ -238,7 +250,8 @@ if (!empty($email)) {
                                                 </label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
+                                                <input class="form-check-input" type="checkbox" id="securityNotify"
+                                                    checked disabled>
                                                 <label class="form-check-label" for="securityNotify">
                                                     Security alerts
                                                 </label>
@@ -258,31 +271,40 @@ if (!empty($email)) {
                                 <form method="POST">
 
                                     <div class="row mb-3">
-                                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
+                                            Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="password" type="password" class="form-control" id="currentPassword">
+                                            <input name="password" type="password" class="form-control"
+                                                id="currentPassword">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
+                                            Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                            <input name="newpassword" type="password" class="form-control"
+                                                id="newPassword">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New
+                                            Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                                            <input name="renewpassword" type="password" class="form-control"
+                                                id="renewPassword">
                                         </div>
                                     </div>
-                                    <span class="text-success"><?php if (isset($passwrdmesg)) echo $passwrdmesg; ?></span>
-                                    <span class="text-danger"><?php if (isset($passwrdmesg_err)) echo $passwrdmesg_err; if (isset($notMatched)) echo $notMatched;?></span>
-                                    
+                                    <span
+                                        class="text-success"><?php if (isset($passwrdmesg)) echo $passwrdmesg; ?></span>
+                                    <span class="text-danger"><?php if (isset($passwrdmesg_err)) echo $passwrdmesg_err;
+                                                                if (isset($notMatched)) echo $notMatched; ?></span>
+
 
                                     <div class="text-center">
-                                        <button type="submit" name="updatePassword" class="btn btn-primary">Change Password</button>
+                                        <button type="submit" name="updatePassword" class="btn btn-primary">Change
+                                            Password</button>
                                     </div>
                                 </form><!-- End Change Password Form -->
 

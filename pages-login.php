@@ -1,7 +1,7 @@
 <?php
 require_once("dbConn/db.php");
+require_once(__DIR__."/utilities.php");
 session_start();
-
 if (isset($_POST['login_guest'])) {
   if (!empty($_POST['email'])) $email = $_POST['email'];
   else $email_err = "please enter valid email address";
@@ -24,8 +24,8 @@ if (isset($_POST['login_guest'])) {
     $conn->close();
   }
 }
+if (isset($_SESSION["email"])) utilities::showPage("index.php");
 
-if (isset($_SESSION["email"]))  header("location: ./index.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
