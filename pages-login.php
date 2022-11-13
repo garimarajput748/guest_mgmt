@@ -1,6 +1,7 @@
 <?php
+require_once((__DIR__) . "/path.php");
 require_once("dbConn/db.php");
-require_once(__DIR__."/utilities.php");
+require_once(CLASSES_DIR . "/utilities.php");
 session_start();
 if (isset($_POST['login_guest'])) {
   if (!empty($_POST['email'])) $email = $_POST['email'];
@@ -14,7 +15,7 @@ if (isset($_POST['login_guest'])) {
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
       $_SESSION["email"] = $email;
-      if(!empty($_POST['remember'])){
+      if (!empty($_POST['remember'])) {
         $_COOKIE["email"] = $email;
         $_COOKIE["password"] = $password;
       }
@@ -96,14 +97,14 @@ if (isset($_SESSION["email"])) utilities::showPage("index.php");
 
                     <div class="col-12">
                       <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" value="<?php if(isset($_COOKIE["email"])) echo $_COOKIE["email"]; ?>" required>
+                      <input type="email" name="email" class="form-control" id="yourEmail" value="<?php if (isset($_COOKIE["email"])) echo $_COOKIE["email"]; ?>" required>
                       <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                       <div class="text-danger"><?php if (isset($email_err)) echo $email_err ?></div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php if(isset($_COOKIE["password"])) echo $_COOKIE["password"]; ?>" required >
+                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php if (isset($_COOKIE["password"])) echo $_COOKIE["password"]; ?>" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                       <div class="text-danger"><?php if (isset($password_err)) echo $password_err ?></div>
                     </div>
