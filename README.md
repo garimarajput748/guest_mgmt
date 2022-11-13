@@ -71,6 +71,6 @@ For support, email info@garimarajput.com.
 
 Install This project
 ```bash
-    comming soon...
+    comming soon....
 ```
 
