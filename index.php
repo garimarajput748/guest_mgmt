@@ -155,3 +155,4 @@ require_once("include/sidebar.php");
 </main><!-- End #main -->
 <?php
 require_once("include/footer.php");
+?>

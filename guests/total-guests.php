@@ -18,11 +18,20 @@ if ($result->num_rows > 0) {
   $no_data =  "No Record Found :)";
 }
 
+// die(basename(__FILE__) . " : " . __LINE__);
+// echo '<br>MAYANK ' . basename(__FILE__) . ' ' . __LINE__ . '<pre> data :: ';
+// print_r($_GET);
+// echo '</pre>';
+// exit;
 // query for delete data from database
-if (!empty($_GET['action'] )&& $_GET['action'] == 'delete') {
+if (!empty($_GET['action']) && $_GET['action'] == 'delete') {
   if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "DELETE FROM guest_list WHERE guest_id = $id";
+    echo '<br>MAYANK ' . basename(__FILE__) . ' ' . __LINE__ . '<pre> data :: ';
+    print_r($sql);
+    echo '</pre>';
+    exit;
     $result = $conn->query($sql);
     if ($result) $mesg = "Record deleted successfully";
     else $mesg_err =  "Error deleting record";
@@ -56,18 +65,19 @@ if (isset($_POST['invitation'])) {
                 <table id="guest-table" style="width:100%" class="table table-striped table-bordered">
                   <thead>
                     <tr class="text-center">
+                      <th>Select All <input type="checkbox" name="chk-all" value="chk-all" onchange="checkAll(this)"></th>
                       <th>Sr. No.</th>
                       <th>Name</th>
                       <th>Mobile Number</th>
                       <th>Address</th>
                       <th>Relationship</th>
                       <th>Edit / Delete</th>
-                      <th>Select All <input type="checkbox" name="chk-all" value="chk-all" onchange="checkAll(this)"></th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php foreach ($guest_data as $data) { ?>
                       <tr class="text-center">
+                        <td><input type="checkbox" name="check" onchange="checkChange();" value="<?php echo $data['guest_id']; ?>"></td>
                         <td><?php echo $data['guest_id']; ?></td>
                         <td><?php echo $data['guest_name']; ?></td>
                         <td><?php echo $data['guest_mobile']; ?></td>
@@ -77,11 +87,10 @@ if (isset($_POST['invitation'])) {
                           <a href="<?php BASE_URL ?>update-guest.php?action=edit&id=<?php echo $data['guest_id'] ?>" title="edit this">
                             <i class="bi bi-pencil-square edit"></i>
                           </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                          <a href="<?php BASE_URL ?>?action=delete&id=<?php echo $data['guest_id'] ?>" title="delete this">
+                          <a href="#" title="delete this">
                             <i class="bi bi-trash delete"></i>
                           </a>
                         </td>
-                        <td><input type="checkbox" name="check" onchange="checkChange();" value="<?php echo $data['guest_id']; ?>"></td>
                       </tr>
                     <?php } ?>
                   </tbody>
@@ -97,6 +106,76 @@ if (isset($_POST['invitation'])) {
     </div>
   </div>
 </main>
+<script>
+  $(document).ready(function() {
+    var table = $('#guest-table').DataTable({
+      dom: 'Bfrtip',
+      buttons: [{
+
+          extend: 'copyHtml5',
+          exportOptions: {
+            columns: 'th:not(:last-child)'
+          },
+          text: '<i class="fa fa-files-o"> Copy </i>',
+          className: 'text-primary',
+          footer: true,
+          titleAttr: 'Copy'
+
+        },
+
+        {
+          extend: 'excelHtml5',
+          exportOptions: {
+            columns: 'th:not(:last-child)'
+          },
+          text: '<i class="fa fa-file-excel-o"> Export as Excel</i>',
+          className: 'text-success',
+          footer: true,
+          titleAttr: 'Excel'
+        },
+
+        {
+          extend: 'csvHtml5',
+          exportOptions: {
+            columns: 'th:not(:last-child)'
+          },
+          text: '<i class="fa fa-file-text-o"> Export as CSV </i>',
+          className: 'text-info',
+          footer: true,
+          titleAttr: 'CSV'
+        },
+
+        {
+          extend: 'pdfHtml5',
+          exportOptions: {
+            columns: 'th:not(:last-child)'
+          },
+          messageTop: 'This file is export from www.event-info.com',
+          messageBottom: 'Contact-us We are always we there for your help. ',
+          text: '<i class="fa fa-file-pdf-o"> Export as PDF</i>',
+          titleAttr: 'PDF',
+          className: 'text-danger',
+          footer: true,
+          title: 'Data Export PDF File'
+        }
+      ]
+    });
+
+    /*
+        $.ajax({
+          url: '',
+          type: 'GET',
+          data: {
+            id: 1,
+            "action": "delete",
+          },
+          success: function(response) {
+            console.log(`%c data`, 'font-size:50px; color: red;');
+          }
+        });*/
+  });
+</script>
+
 <?php
 require_once(SITE_ROOT_DIR_PATH . "include/footer.php");
 ?>

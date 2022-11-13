@@ -44,6 +44,12 @@ if (!isset($_SESSION["email"])) utilities::showPage("pages-login.php");
 
   <!-- Template Main CSS File -->
   <link href="<?php echo ASSETS_HTTP; ?>css/style.css" rel="stylesheet">
+  <script src="<?php echo VENDOR_HTTP; ?>jquery-3.6.1.min.js"></script>
+  <!--CSS For datatables -->
+  <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css" rel="stylesheet">
+
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.4.1
@@ -55,5 +61,5 @@ if (!isset($_SESSION["email"])) utilities::showPage("pages-login.php");
 
 <body>
   <?php
-  require_once(SITE_ROOT_DIR_PATH."include/navbar.php");
+  require_once(SITE_ROOT_DIR_PATH . "include/navbar.php");
   ?>
