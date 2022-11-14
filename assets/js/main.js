@@ -333,8 +333,8 @@ function checkAll(e) {
     }
   }
 }
-function checkChange(){
 
+function checkChange(){
   var totalCheckbox = document.querySelectorAll('input[name="check"]').length;
   var totalChecked = document.querySelectorAll('input[name="check"]:checked').length;
 
@@ -344,6 +344,11 @@ function checkChange(){
   } else {
      document.getElementsByName("chk-all")[0].checked=false;
   }
+}
+
+function deleteRow(e){
+  console.log(this.closest('tr'));
+  // this.closest('tr').remove();
 }
 
 // reset form values on-click

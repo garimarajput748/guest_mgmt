@@ -20,13 +20,13 @@ if (!empty($email)) {
     }
     // update data of users from edit profile to database
     if (isset($_POST['updateProfile'])) {
-        if (empty($_POST['username']) && empty($_POST['name']) && empty($_POST['email']) && empty($_POST['number']) && empty($_POST['address'])) {
+        if (empty($_POST['username']) && empty($_POST['name']) /*&& empty($_POST['email'])*/ && empty($_POST['number']) && empty($_POST['address'])) {
             $err = "All fields are required";
             return false;
         }
         $username = $_POST['username'];
         $name = $_POST['name'];
-        $email = $_POST['email'];
+        // $email = $_POST['email'];
         $number = $_POST['number'];
         $address = $_POST['address'];
         $sql = "UPDATE register_users SET username = '$username',name = '$name',address = '$address', email = '$email', number ='$number' WHERE email = '$email'";
@@ -63,8 +63,6 @@ if (!empty($email)) {
                 <li class="breadcrumb-item">Users</li>
                 <li class="breadcrumb-item active">Profile</li>
             </ol>
-            <?php //var_dump($username); 
-            ?>
         </nav>
     </div><!-- End Page Title -->
     <section class="section profile">

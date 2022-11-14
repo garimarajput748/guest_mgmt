@@ -60,15 +60,14 @@ if (isset($_POST['invitation'])) {
         <a href="<?php echo BASE_URL; ?>guests/add-guest.php"><button type="submit" class="mb-3 add-btn"><i class="bi bi-plus"></i>Add New Guest</button></a>
         <div class="card rounded shadow border-0">
           <div class="card-body p-5 bg-white rounded">
-            <form method="POST">
               <div class="table-responsive">
                 <table id="guest-table" style="width:100%" class="table table-striped table-bordered">
                   <thead>
                     <tr class="text-center">
-                      <th>Select All <input type="checkbox" name="chk-all" value="chk-all" onchange="checkAll(this)"></th>
-                      <th>Sr. No.</th>
+                      <th class="text-nowrap">Select All <input type="checkbox" name="chk-all" value="chk-all" onchange="checkAll(this)"></th>
+                      <th class="text-nowrap">Sr. No.</th>
                       <th>Name</th>
-                      <th>Mobile Number</th>
+                      <th class="text-nowrap">Contact No.</th>
                       <th>Address</th>
                       <th>Relationship</th>
                       <th>Edit / Delete</th>
@@ -76,8 +75,8 @@ if (isset($_POST['invitation'])) {
                   </thead>
                   <tbody>
                     <?php foreach ($guest_data as $data) { ?>
-                      <tr class="text-center">
-                        <td><input type="checkbox" name="check" onchange="checkChange();" value="<?php echo $data['guest_id']; ?>"></td>
+                      <tr class="text-center table-row">
+                        <td><input type="checkbox" name="check" onchange="checkChange()" value="<?php echo $data['guest_id']; ?>"></td>
                         <td><?php echo $data['guest_id']; ?></td>
                         <td><?php echo $data['guest_name']; ?></td>
                         <td><?php echo $data['guest_mobile']; ?></td>
@@ -86,20 +85,20 @@ if (isset($_POST['invitation'])) {
                         <td>
                           <a href="<?php BASE_URL ?>update-guest.php?action=edit&id=<?php echo $data['guest_id'] ?>" title="edit this">
                             <i class="bi bi-pencil-square edit"></i>
-                          </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                          <a href="#" title="delete this">
+                          </a>&nbsp;&nbsp;
+                          <button class="border-0 bg-transparent" title="delete this" class="delete-btn" onclick="deleteRow(this)" data-id="<?php echo $data['guest_id'] ?>">
                             <i class="bi bi-trash delete"></i>
-                          </a>
+                          </button> 
                         </td>
                       </tr>
                     <?php } ?>
                   </tbody>
                 </table>
+                <div><button class="border-0 bg-danger text-white p-1" title="Delete All">Delete All</button></div>
                 <div class="float-end"><?php echo (isset($sendInvitation)) ? $sendInvitation : ''; ?></div>
                 <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div>
                 <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err; ?><?php if (isset($no_data)) echo $no_data; ?></div>
               </div>
-            </form>
           </div>
         </div>
       </div>
@@ -108,10 +107,10 @@ if (isset($_POST['invitation'])) {
 </main>
 <script>
   $(document).ready(function() {
+    
     var table = $('#guest-table').DataTable({
       dom: 'Bfrtip',
       buttons: [{
-
           extend: 'copyHtml5',
           exportOptions: {
             columns: 'th:not(:last-child)'
@@ -151,29 +150,47 @@ if (isset($_POST['invitation'])) {
             columns: 'th:not(:last-child)'
           },
           messageTop: 'This file is export from www.event-info.com',
-          messageBottom: 'Contact-us We are always we there for your help. ',
+          messageBottom: 'Contact-us We are always there for your help. ',
           text: '<i class="fa fa-file-pdf-o"> Export as PDF</i>',
           titleAttr: 'PDF',
           className: 'text-danger',
           footer: true,
           title: 'Data Export PDF File'
         }
+      ],
+      columnDefs: [{
+          targets: 0,
+          sortable: false
+        },
+        {
+          targets: 6,
+          sortable: false
+        },
+      ],
+      order: [
+        [1, "asc"]
       ]
+
     });
 
-    /*
-        $.ajax({
-          url: '',
-          type: 'GET',
-          data: {
-            id: 1,
-            "action": "delete",
-          },
-          success: function(response) {
-            console.log(`%c data`, 'font-size:50px; color: red;');
-          }
-        });*/
+    //   $('#guest-table').on('click','.delete-btn',function(){
+    //     // $(this).closest('tr').remove();
+    //     console.log(this);
+    // });
+
+    // $.ajax({
+    //   url: '',
+    //   type: 'GET',
+    //   data: {
+    //     id: 1,
+    //     "action": "delete",
+    //   },
+    //   success: function(response) {
+    //     // console.log(`%c data`, 'font-size:50px; color: red;');
+    //   }
+    // });
   });
+  
 </script>
 
 <?php
