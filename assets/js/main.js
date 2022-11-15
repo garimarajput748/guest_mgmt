@@ -346,10 +346,10 @@ function checkChange(){
   }
 }
 
-function deleteRow(e){
-  console.log(this.closest('tr'));
-  // this.closest('tr').remove();
-}
+// function deleteRow(e){
+//   e.closest('tr').remove();
+ 
+// }
 
 // reset form values on-click
 // var form = document.getElementById('addEventsForm');

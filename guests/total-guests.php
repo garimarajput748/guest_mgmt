@@ -106,6 +106,7 @@ if (isset($_POST['invitation'])) {
   </div>
 </main>
 <script>
+
   $(document).ready(function() {
     
     var table = $('#guest-table').DataTable({
@@ -173,23 +174,49 @@ if (isset($_POST['invitation'])) {
 
     });
 
+    function deleteRow(){
+      // e.closest('tr').remove();
+      Console.log("element");
+
+      // $(element).attr("data-id");
+
+      // $(element).parents("tr").remove();
+    }
+    
+
     //   $('#guest-table').on('click','.delete-btn',function(){
     //     // $(this).closest('tr').remove();
-    //     console.log(this);
+    //     console.log(this.value);
     // });
 
-    // $.ajax({
-    //   url: '',
-    //   type: 'GET',
-    //   data: {
-    //     id: 1,
-    //     "action": "delete",
-    //   },
-    //   success: function(response) {
-    //     // console.log(`%c data`, 'font-size:50px; color: red;');
-    //   }
+    
+        // $('.delete-btn').click(function(){
+        //   console.log("del_id");
+        //     var del_id= $(this).attr('id');
+        //     var $ele = $(this).parent().parent();
+            
+
+      // $.ajax({
+      //   url: '',
+      //   type: 'GET',
+      //   data: {
+      //     id: {del_id:del_id},
+      //     "action": "delete",
+      //   },
+      //   success: function(data) {
+      //     // console.log(`%c data`, 'font-size:50px; color: red;');
+      //     if(data=="YES"){
+      //         // $ele.fadeOut().remove();
+      //     }else{
+      //         alert("can't delete the row")
+      //     }
+      //   }
+      // });
     // });
+ 
+
   });
+  
   
 </script>
 
