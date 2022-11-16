@@ -887,6 +887,20 @@ input[type=number] {
   color:red;
   cursor: pointer;
 }
+.my-guest .delete-all-btn{
+  position: relative;
+  bottom: 65px;
+}
+.dataTables_info{
+  text-align: center;
+}
+.dataTables_paginate .paginate_button {
+  cursor: pointer;
+  margin-left: 30px;
+}
+.dataTables_paginate .previous{
+  float: left;
+}
 /* my guests css end*/
 
 /*--------------------------------------------------------------

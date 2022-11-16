@@ -91,7 +91,7 @@ if (isset($_POST['invitation'])) {
                   <?php } ?>
                 </tbody>
               </table>
-              <div><button class="border-0 bg-danger text-white p-1" title="Delete All">Delete All</button></div>
+              <span class="delete-all-btn"><button class="border-0 bg-danger text-white p-1 px-4" title="Delete All">Delete All</button></span>
               <div class="float-end"><?php echo (isset($sendInvitation)) ? $sendInvitation : ''; ?></div>
               <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div>
               <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err; ?><?php if (isset($no_data)) echo $no_data; ?></div>
@@ -168,25 +168,29 @@ if (isset($_POST['invitation'])) {
         [1, "asc"]
       ]
 
+    }); 
+
+});
+  function deleteRow(ele){
+    var deleteId = $(ele).attr("data-id");
+    $(ele).parents("tr").remove();
+
+      $.ajax({
+      url: '',
+      type: 'GET',
+      data: {
+        "deleteId": deleteId,
+        "action": "delete_records",
+      },
+      success: function(response) {
+        if (response != "") {
+          var result = JSON.parse(response);
+          alert(result.message);
+        }
+      }
     });
-
-    //   $('#guest-table').on('click','.delete-btn',function(){
-    //     // $(this).closest('tr').remove();
-    //     console.log(this);
-    // });
-
-    // $.ajax({
-    //   url: '',
-    //   type: 'GET',
-    //   data: {
-    //     id: 1,
-    //     "action": "delete",
-    //   },
-    //   success: function(response) {
-    //     // console.log(`%c data`, 'font-size:50px; color: red;');
-    //   }
-    // });
-  });
+  }
+    
   
 </script>
 

@@ -3,6 +3,7 @@ require_once("path.php");
 require_once(SITE_ROOT_DIR_PATH."include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
+require_once("functions.php");
 
 //fetch data of users from register users table
 $email = $_SESSION["email"];
@@ -11,7 +12,6 @@ if (!empty($email)) {
     $result = $conn->query($sql);
     while ($row = $result->fetch_all(MYSQLI_ASSOC)) {
         $id = $row[0]['id'];
-        $username = $row[0]['username'];
         $name = $row[0]['name'];
         $email = $row[0]['email'];
         $address = $row[0]['address'];
@@ -20,16 +20,15 @@ if (!empty($email)) {
     }
     // update data of users from edit profile to database
     if (isset($_POST['updateProfile'])) {
-        if (empty($_POST['username']) && empty($_POST['name']) /*&& empty($_POST['email'])*/ && empty($_POST['number']) && empty($_POST['address'])) {
+        if (empty($_POST['name']) /*&& empty($_POST['email'])*/ && empty($_POST['number']) && empty($_POST['address'])) {
             $err = "All fields are required";
             return false;
         }
-        $username = $_POST['username'];
         $name = $_POST['name'];
         // $email = $_POST['email'];
         $number = $_POST['number'];
         $address = $_POST['address'];
-        $sql = "UPDATE register_users SET username = '$username',name = '$name',address = '$address', email = '$email', number ='$number' WHERE email = '$email'";
+        $sql = "UPDATE register_users SET name = '$name',address = '$address', email = '$email', number ='$number' WHERE email = '$email'";
         $result = $conn->query($sql);
         if ($result === TRUE) $mesg = "Record Updated Successfully";
         else $mesg_err = "No Record Updated";
@@ -57,13 +56,7 @@ if (!empty($email)) {
 <main class="main" id="main">
     <div class="pagetitle">
         <h1>Profile</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Users</li>
-                <li class="breadcrumb-item active">Profile</li>
-            </ol>
-        </nav>
+        <?php breadcrumb('user'); ?>
     </div><!-- End Page Title -->
     <section class="section profile">
         <div class="row">
@@ -119,12 +112,6 @@ if (!empty($email)) {
                                 <h5 class="card-title">Profile Details</h5>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label ">Username</div>
-                                    <div class="col-lg-9 col-md-8">
-                                        <?php if (isset($username)) echo ('@' . $username); ?></div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Full Name</div>
                                     <div class="col-lg-9 col-md-8"><?php if (isset($name)) echo (ucwords($name)); ?>
                                     </div>
@@ -153,7 +140,7 @@ if (!empty($email)) {
 
                                 <!-- Profile Edit Form -->
                                 <form method="POST">
-                                    <?php //var_dump($username1);
+                                    <?php //var_dump($  1);
                                     ?>
                                     <!-- <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
@@ -166,14 +153,6 @@ if (!empty($email)) {
                         </div>
                       </div>
                     </div> -->
-
-                                    <div class="row mb-3">
-                                        <label for="Username" class="col-md-4 col-lg-3 col-form-label">Username</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="username" type="text" class="form-control" id="userName"
-                                                value="<?php echo $username ?>">
-                                        </div>
-                                    </div>
 
                                     <div class="row mb-3">
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>

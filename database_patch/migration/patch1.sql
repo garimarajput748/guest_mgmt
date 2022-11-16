@@ -13,6 +13,7 @@
 -- Table structure for table `guest_list`
 --
  CREATE TABLE  IF NOT EXISTS `guest_list` (
+  `user_id` varchar(20) NOT NULL,
   `guest_id` int(100) NOT NULL AUTO_INCREMENT,
   `guest_name` varchar(50) NOT NULL,
   `guest_mobile` int(10) NOT NULL,
@@ -26,7 +27,6 @@
 --
 CREATE TABLE IF NOT EXISTS `register_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
   `name` varchar(20) NOT NULL,
   `address` varchar(100) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `register_users` (
 --
 -- Table structure for table `event_list`
 --
-CREATE TABLE `event_list` (
+CREATE TABLE IF NOT EXISTS `event_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `eventName` varchar(50) NOT NULL,
   `totalGuests` varchar(50) NOT NULL,

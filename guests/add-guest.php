@@ -3,6 +3,7 @@ require_once("../path.php");
 require_once(SITE_ROOT_DIR_PATH . "include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
+
 if (isset($_POST["add_guest"])) {
 
     if (!empty($_POST['name'])) $name = $_POST['name'];
@@ -16,9 +17,10 @@ if (isset($_POST["add_guest"])) {
 
     if (!empty($_POST['relationship'])) $relationship = $_POST['relationship'];
     else $relationship_err = "please enter your relationship";
+    
 
     if (!empty($name) && !empty($number) && !empty($address) && !empty($relationship)) {
-        $sql = "INSERT INTO guest_list (guest_name,guest_mobile,guest_address,relationship) VALUES ('$name','$number','$address','$relationship')";
+        $sql = "INSERT INTO guest_list (user_id,guest_name,guest_mobile,guest_address,relationship) VALUES ('".$_SESSION['email']."','$name','$number','$address','$relationship')";
         if ($conn->query($sql) === TRUE) {
             $data = "Data Entered Successfully :)";
         } else {
