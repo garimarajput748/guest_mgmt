@@ -20,12 +20,20 @@ if (isset($_POST["add_guest"])) {
     
 
     if (!empty($name) && !empty($number) && !empty($address) && !empty($relationship)) {
+        $sql = "SELECT * FROM guest_list WHERE guest_name = '$name' AND guest_mobile = '$number' AND guest_address = '$address' AND relationship = '$relationship'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+        $guestExists = "This Guest already exists.";
+        } 
+    else {
         $sql = "INSERT INTO guest_list (userID,guest_name,guest_mobile,guest_address,relationship) VALUES ('".$_SESSION['userID']."','$name','$number','$address','$relationship')";
         if ($conn->query($sql) === TRUE) {
+            echo "<meta http-equiv='refresh' content='0'>";
             $data = "Data Entered Successfully :)";
         } else {
             $no_data = "Something Went Wrong :(";
         }
+      }
     }
     else {
         $all_fields_err = "All Fields need to be fill **";
@@ -74,8 +82,8 @@ if (isset($_POST["add_guest"])) {
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="text-center mt-2 text-success"><?php if (isset($data)) echo $data;?> <span class="text-danger"><?php if (isset($no_data)) echo $no_data; echo (isset($all_fields_err))?  $all_fields_err:''; echo(isset($guestExists))? $guestExists: '';?></span></div>
                                 <div class="text-center"><button class="add-btn" type="submit" name="add_guest">Add <i class="bi bi-person-plus-fill"></i> </button></div>
-                                <div class="text-center mt-2 text-success"><?php if (isset($data)) echo $data;?> <span class="text-danger"><?php if (isset($no_data)) echo $no_data; if (isset($all_fields_err)) echo $all_fields_err;?></span></div>
                         </form>
                     </div>
                 </div>
