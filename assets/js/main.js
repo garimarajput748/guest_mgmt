@@ -346,9 +346,18 @@ function checkChange(){
   }
 }
 
-// function deleteRow(e){
-//   e.closest('tr').remove();
- 
+//delete selected checkbox using delete-all btn
+// function delBoxes(){
+//   var boxes = document.getElementsByClassName('chk');
+//   var texts = document.getElementsByClassName('txt');
+//   for(var i = 0; i<boxes.length; i++){
+//       box = boxes[i];
+//       txt = texts[i];
+//       if(box.checked){
+//           box.parentNode.removeChild(box);
+//           txt.parentNode.removeChild(txt);
+//       }
+//   }
 // }
 
 // reset form values on-click

@@ -77,7 +77,7 @@ if (isset($_POST['invitation'])) {
                 <tbody>
                   <?php foreach ($guest_data as $data) { ?>
                     <tr class="text-center table-row">
-                      <td><input type="checkbox" name="check" onchange="checkChange()" value="<?php echo $data['guest_id']; ?>"></td>
+                      <td><input type="checkbox" name="check" class="check" onchange="checkChange()" value="<?php echo $data['guest_id']; ?>"></td>
                       <td><?php echo $count; ?></td>
                       <td><?php echo $data['guest_name']; ?></td>
                       <td><?php echo $data['guest_mobile']; ?></td>
@@ -113,7 +113,7 @@ if (isset($_POST['invitation'])) {
           exportOptions: {
             columns: 'th:not(:last-child)'
           },
-          text: '<i class="bi  bi -file-excel-o"> Export as Excel</i>',
+          text: '<i class="bi  bi-file-earmark-excel"> Export as Excel</i>',
           className: 'text-success',
           footer: true,
           titleAttr: 'Excel'
@@ -126,14 +126,14 @@ if (isset($_POST['invitation'])) {
           },
           messageTop: 'This file is export from www.event-info.com',
           messageBottom: 'Pdf exported you can edit this from js code ',
-          text: '<i class="bi  bi -file-pdf-o"> Export as PDF</i>',
+          text: '<i class="bi  bi-file-earmark-pdf"> Export as PDF</i>',
           titleAttr: 'PDF',
           className: 'text-danger',
           footer: true,
           title: 'Data Export PDF File'
         },
         {
-          text: '<i class="bi bi-trash delete"> Delete All</i>',
+          text: '<i class="bi bi-trash delete-all"> Delete All</i>',
           titleAttr: 'Delete All',
           className: 'text-danger',
         }
@@ -152,6 +152,46 @@ if (isset($_POST['invitation'])) {
       ],
       "pageLength": 10
 
+    });
+
+    $(".delete-all").on("click", function() {
+      var deleteId_arr = [];
+      var boxes = $('input[name=check]:checked').each(function(){
+        if($(this).is(":checked")){
+          var boxId = $(this).val();
+          deleteId_arr.push(boxId);
+      //     if(boxes.length > 0){
+            // console.log(id_arr);
+      //   // boxes.parents('tr').remove();
+      // }
+
+        }
+    });
+
+    // if(deleteId_arr.length > 0){
+    //   var isDelete = confirm("Do you really want to delete records?");
+    //   if (isDelete == true) {
+    //   $.ajax({
+    //         url: '',
+    //         type: 'GET',
+    //         data: {
+    //           "deleteId": deleteId_arr,
+    //           "action": "delete_records",
+    //         },
+    //         success: function(response) {
+    //           if (response != "") {
+    //             var result = JSON.parse(response);
+    //             $.each(deleteId_arr, function(){
+    //                  $(".table-row").remove();
+    //           });
+    //             alert(result.message);
+    //           }
+    //         }
+    //       });
+
+    //   }
+    // }
+      
     });
 
   });
@@ -175,6 +215,7 @@ if (isset($_POST['invitation'])) {
       }
     });
   }
+  
 </script>
 
 <?php
