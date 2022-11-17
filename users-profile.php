@@ -6,12 +6,12 @@ require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
 require_once("functions.php");
 
 //fetch data of users from register users table
-$email = $_SESSION["email"];
-if (!empty($email)) {
-    $sql = "SELECT * FROM register_users where email = '$email'";
+$userID = $_SESSION["userID"];
+if (!empty($userID)) {
+    $sql = "SELECT * FROM register_users where userID = '$userID'";
     $result = $conn->query($sql);
     while ($row = $result->fetch_all(MYSQLI_ASSOC)) {
-        $id = $row[0]['id'];
+        $id = $row[0]['userID'];
         $name = $row[0]['name'];
         $email = $row[0]['email'];
         $address = $row[0]['address'];
@@ -20,12 +20,11 @@ if (!empty($email)) {
     }
     // update data of users from edit profile to database
     if (isset($_POST['updateProfile'])) {
-        if (empty($_POST['name']) /*&& empty($_POST['email'])*/ && empty($_POST['number']) && empty($_POST['address'])) {
+        if (empty($_POST['name']) && empty($_POST['number']) && empty($_POST['address'])) {
             $err = "All fields are required";
             return false;
         }
         $name = $_POST['name'];
-        // $email = $_POST['email'];
         $number = $_POST['number'];
         $address = $_POST['address'];
         $sql = "UPDATE register_users SET name = '$name',address = '$address', email = '$email', number ='$number' WHERE email = '$email'";

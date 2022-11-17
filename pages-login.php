@@ -13,8 +13,13 @@ if (isset($_POST['login_guest'])) {
   if (!empty($email) && !empty($password)) {
     $sql = "SELECT * FROM register_users where email = '$email' AND password='$password'";
     $result = $conn->query($sql);
+    while ($row = $result->fetch_all(MYSQLI_ASSOC)){
+      $userID = $row[0]['userId'];
+      $userName = $row[0]['name'];
+    }
     if ($result->num_rows > 0) {
-      $_SESSION["email"] = $email;
+      $_SESSION["userID"] = $userID;
+      $_SESSION["userName"] = $userName;
       if (!empty($_POST['remember'])) {
         $_COOKIE["email"] = $email;
         $_COOKIE["password"] = $password;
@@ -25,7 +30,7 @@ if (isset($_POST['login_guest'])) {
     $conn->close();
   }
 }
-if (isset($_SESSION["email"])) utilities::showPage("index.php");
+if (isset($_SESSION["userID"])) utilities::showPage("index.php");
 
 ?>
 <!DOCTYPE html>
