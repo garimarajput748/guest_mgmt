@@ -14,7 +14,7 @@ if (isset($_POST['login_guest'])) {
     $sql = "SELECT * FROM register_users where email = '$email' AND password='$password'";
     $result = $conn->query($sql);
     while ($row = $result->fetch_all(MYSQLI_ASSOC)){
-      $userID = $row[0]['userId'];
+      $userID = $row[0]['userID'];
       $userName = $row[0]['name'];
     }
     if ($result->num_rows > 0) {
