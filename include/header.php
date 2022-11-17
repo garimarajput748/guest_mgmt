@@ -10,7 +10,7 @@ require_once(dirname(__DIR__) . "/path.php");
 require_once(CLASSES_DIR . "/utilities.php");
 
 session_start();
-if (!isset($_SESSION["email"])) utilities::showPage("pages-login.php");
+if (!isset($_SESSION["userID"])) utilities::showPage("pages-login.php");
 
 ?>
 <!DOCTYPE html>

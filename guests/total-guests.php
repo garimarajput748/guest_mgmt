@@ -22,7 +22,8 @@ require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 
 // query for showing the data from database
 $guest_data = array();
-$sql = "SELECT * FROM guest_list";
+$count = 1;
+$sql = "SELECT * FROM guest_list WHERE userID = '".$_SESSION['userID']."'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
@@ -77,7 +78,7 @@ if (isset($_POST['invitation'])) {
                   <?php foreach ($guest_data as $data) { ?>
                     <tr class="text-center table-row">
                       <td><input type="checkbox" name="check" onchange="checkChange()" value="<?php echo $data['guest_id']; ?>"></td>
-                      <td><?php echo $data['guest_id']; ?></td>
+                      <td><?php echo $count; ?></td>
                       <td><?php echo $data['guest_name']; ?></td>
                       <td><?php echo $data['guest_mobile']; ?></td>
                       <td><?php echo $data['guest_address']; ?></td>
@@ -91,7 +92,7 @@ if (isset($_POST['invitation'])) {
                         </button>
                       </td>
                     </tr>
-                  <?php } ?>
+                  <?php $count++;  } ?>
                 </tbody>
               </table>
               <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div>
@@ -116,17 +117,6 @@ if (isset($_POST['invitation'])) {
           className: 'text-success',
           footer: true,
           titleAttr: 'Excel'
-        },
-
-        {
-          extend: 'csvHtml5',
-          exportOptions: {
-            columns: 'th:not(:last-child)'
-          },
-          text: '<i class="bi  bi -file-text-o"> Export as CSV </i>',
-          className: 'text-info',
-          footer: true,
-          titleAttr: 'CSV'
         },
 
         {

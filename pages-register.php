@@ -105,24 +105,9 @@ if (isset($_POST['register_btn'])) {
 
                   <form class="row g-3 needs-validation" novalidate method="POST">
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" value="<?php echo $username ?>" required>
-                        <div class="invalid-feedback">Please choose a username.</div>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
                       <label for="yourName" class="form-label">Your Name</label>
                       <input type="text" name="name" class="form-control" id="yourName" value="<?php echo $name ?>" required>
                       <div class="invalid-feedback">Please, enter your name!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourAddress" class="form-label">Your Address</label>
-                      <textarea name="address" class="form-control" id="yourAddress" value="<?php echo $address ?>" required></textarea>
-                      <div class="invalid-feedback">Please, enter your address!</div>
                     </div>
 
                     <div class="col-12">
@@ -142,6 +127,12 @@ if (isset($_POST['register_btn'])) {
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" value="<?php echo $password ?>" required>
                       <div class="invalid-feedback">Please enter your password!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourAddress" class="form-label">Your Address</label>
+                      <textarea name="address" class="form-control" id="yourAddress" value="<?php echo $address ?>" required></textarea>
+                      <div class="invalid-feedback">Please, enter your address!</div>
                     </div>
 
                     <div class="col-12">

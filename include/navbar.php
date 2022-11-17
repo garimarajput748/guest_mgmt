@@ -1,7 +1,6 @@
 <?php 
-if (isset($_SESSION['email'])){
- $uName = $_SESSION['email'];
- $uName = explode('@', $uName);
+if (isset($_SESSION['userName'])){
+ $userName = $_SESSION['userName'];
 }
 ?>
 <!-- ======= Header ======= -->
@@ -176,12 +175,12 @@ if (isset($_SESSION['email'])){
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="<?php echo IMAGES_HTTP; ?>image.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php  echo (isset($uName))? ucfirst($uName[0]): 'user'; ?></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php  echo (isset($userName))? ucwords($userName): 'user'; ?></span>
           </a><!-- End Profile Image Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6><?php  echo (isset($uName))? ucfirst($uName[0]): 'user'; ?></h6>
+              <h6><?php  echo (isset($userName))? ucwords($userName): 'user'; ?></h6>
             </li>
             <li>
               <hr class="dropdown-divider">

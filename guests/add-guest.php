@@ -20,7 +20,7 @@ if (isset($_POST["add_guest"])) {
     
 
     if (!empty($name) && !empty($number) && !empty($address) && !empty($relationship)) {
-        $sql = "INSERT INTO guest_list (user_id,guest_name,guest_mobile,guest_address,relationship) VALUES ('".$_SESSION['email']."','$name','$number','$address','$relationship')";
+        $sql = "INSERT INTO guest_list (userID,guest_name,guest_mobile,guest_address,relationship) VALUES ('".$_SESSION['userID']."','$name','$number','$address','$relationship')";
         if ($conn->query($sql) === TRUE) {
             $data = "Data Entered Successfully :)";
         } else {

@@ -13,7 +13,7 @@
 -- Table structure for table `guest_list`
 --
  CREATE TABLE  IF NOT EXISTS `guest_list` (
-  `user_id` varchar(20) NOT NULL,
+
   `guest_id` int(100) NOT NULL AUTO_INCREMENT,
   `guest_name` varchar(50) NOT NULL,
   `guest_mobile` int(10) NOT NULL,
@@ -21,6 +21,11 @@
   `relationship` varchar(50) NOT NULL,
   PRIMARY KEY (`guest_id`)
 );
+
+--
+-- ALter Table for `guest_list`
+--
+ALTER TABLE `guest_list` ADD `userID` INT(11) NOT NULL FIRST;
 
 --
 -- Table structure for table `register_users`
@@ -35,6 +40,11 @@ CREATE TABLE IF NOT EXISTS `register_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 );
+
+--
+-- ALter Table for `register_users`
+--
+ALTER TABLE `register_users` CHANGE `userId` `userID` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Table structure for table `event_list`
