@@ -36,11 +36,6 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 
-//  for send invitation to selected guest 
-if (!empty($_GET['action']) && $_GET['action'] == 'sendinvitation') {
-  $sendInvitation =  '<button type="submit" class="mb-3 add-btn" name="invitation">Send Invitation <i class="bi bi-postage-heart"></i></button>';
-}
-
 if (isset($_POST['invitation'])) {
   if (!empty($_POST['check'])) {
     $selectedPersons = $_POST['check'];
@@ -54,9 +49,17 @@ if (isset($_POST['invitation'])) {
     <h1 class="text-center">Guest List</h1>
     <div class="row py-3">
       <div class="col-lg-12 ml-5">
-        <a href="<?php echo BASE_URL; ?>guests/add-guest.php"><button type="submit" class="mb-3 add-btn"><i class="bi bi-plus"></i>Add New Guest</button></a>
+        <a href="<?php echo BASE_URL; ?>guests/add-guest.php">
+          <button type="submit" class="mb-3 add-btn"><i class="bi bi-plus"></i>Add New Guest</button>
+        </a>
+        <div class="float-end">
+          <?php if (!empty($_GET['action']) && $_GET['action'] == 'sendinvitation')
+            echo '<button type="submit" class="mb-3 add-btn bg-info" name="invitation">Send Invitation <i class="bi bi-postage-heart"></i></button>';
+          ?>
+        </div>
         <div class="card rounded shadow border-0">
           <div class="card-body p-5 bg-white rounded">
+
             <div class="table-responsive">
               <table id="guest-table" style="width:100%" class="table table-striped table-bordered">
                 <thead>
@@ -91,8 +94,6 @@ if (isset($_POST['invitation'])) {
                   <?php } ?>
                 </tbody>
               </table>
-              <span class="delete-all-btn"><button class="border-0 bg-danger text-white p-1 px-4" title="Delete All">Delete All</button></span>
-              <div class="float-end"><?php echo (isset($sendInvitation)) ? $sendInvitation : ''; ?></div>
               <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div>
               <div class="text-center text-danger"><?php if (isset($mesg_err)) echo $mesg_err; ?><?php if (isset($no_data)) echo $no_data; ?></div>
             </div>
@@ -103,28 +104,15 @@ if (isset($_POST['invitation'])) {
   </div>
 </main>
 <script>
-
   $(document).ready(function() {
     var table = $('#guest-table').DataTable({
-      dom: 'Bfrtip',
+      dom: '<"top"Bfrti><"bottom"lp><"clear">', //refs Link : https://www.ihbc.org.uk/consultationsdb_new/examples/basic_init/dom.html
       buttons: [{
-          extend: 'copyHtml5',
-          exportOptions: {
-            columns: 'th:not(:last-child)'
-          },
-          text: '<i class="fa fa-files-o"> Copy </i>',
-          className: 'text-primary',
-          footer: true,
-          titleAttr: 'Copy'
-
-        },
-
-        {
           extend: 'excelHtml5',
           exportOptions: {
             columns: 'th:not(:last-child)'
           },
-          text: '<i class="fa fa-file-excel-o"> Export as Excel</i>',
+          text: '<i class="bi  bi -file-excel-o"> Export as Excel</i>',
           className: 'text-success',
           footer: true,
           titleAttr: 'Excel'
@@ -135,7 +123,7 @@ if (isset($_POST['invitation'])) {
           exportOptions: {
             columns: 'th:not(:last-child)'
           },
-          text: '<i class="fa fa-file-text-o"> Export as CSV </i>',
+          text: '<i class="bi  bi -file-text-o"> Export as CSV </i>',
           className: 'text-info',
           footer: true,
           titleAttr: 'CSV'
@@ -147,12 +135,17 @@ if (isset($_POST['invitation'])) {
             columns: 'th:not(:last-child)'
           },
           messageTop: 'This file is export from www.event-info.com',
-          messageBottom: 'Contact-us We are always there for your help. ',
-          text: '<i class="fa fa-file-pdf-o"> Export as PDF</i>',
+          messageBottom: 'Pdf exported you can edit this from js code ',
+          text: '<i class="bi  bi -file-pdf-o"> Export as PDF</i>',
           titleAttr: 'PDF',
           className: 'text-danger',
           footer: true,
           title: 'Data Export PDF File'
+        },
+        {
+          text: '<i class="bi bi-trash delete"> Delete All</i>',
+          titleAttr: 'Delete All',
+          className: 'text-danger',
         }
       ],
       columnDefs: [{
@@ -166,16 +159,18 @@ if (isset($_POST['invitation'])) {
       ],
       order: [
         [1, "asc"]
-      ]
+      ],
+      "pageLength": 10
 
-    }); 
+    });
 
-});
-  function deleteRow(ele){
+  });
+
+  function deleteRow(ele) {
     var deleteId = $(ele).attr("data-id");
     $(ele).parents("tr").remove();
 
-      $.ajax({
+    $.ajax({
       url: '',
       type: 'GET',
       data: {
@@ -190,8 +185,6 @@ if (isset($_POST['invitation'])) {
       }
     });
   }
-    
-  
 </script>
 
 <?php
