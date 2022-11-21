@@ -5,11 +5,11 @@ require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
 // query for delete data from database
 if (!empty($_GET['action']) && $_GET['action'] == 'delete_records' && !empty($_GET['deleteId'])) {
   $deleteId = $_GET['deleteId'];
-  $sql = "DELETE FROM guest_list WHERE guest_id = $deleteId";
+  $sql = "DELETE FROM guest_list WHERE guest_id in($deleteId)";
 
   try {
     $result = $conn->query($sql);
-    $message = "Record Delete Successfully";
+    $message = "Record Deleted Successfully";
   } catch (Exception $e) {
     $message = $e->getMessage();
   }
@@ -154,44 +154,27 @@ if (isset($_POST['invitation'])) {
 
     });
 
-    $(".delete-all").on("click", function() {
-      var deleteId_arr = [];
-      var boxes = $('input[name=check]:checked').each(function(){
-        if($(this).is(":checked")){
-          var boxId = $(this).val();
-          deleteId_arr.push(boxId);
-      //     if(boxes.length > 0){
-            // console.log(id_arr);
-      //   // boxes.parents('tr').remove();
-      // }
+    $(".delete-all").on("click", function(ele) {
 
-        }
-    });
+      var boxes_id = $('input[name=check]:checked').map(function(){
+        return $(this).val();
+      }).get().join(',');
 
-    // if(deleteId_arr.length > 0){
-    //   var isDelete = confirm("Do you really want to delete records?");
-    //   if (isDelete == true) {
-    //   $.ajax({
-    //         url: '',
-    //         type: 'GET',
-    //         data: {
-    //           "deleteId": deleteId_arr,
-    //           "action": "delete_records",
-    //         },
-    //         success: function(response) {
-    //           if (response != "") {
-    //             var result = JSON.parse(response);
-    //             $.each(deleteId_arr, function(){
-    //                  $(".table-row").remove();
-    //           });
-    //             alert(result.message);
-    //           }
-    //         }
-    //       });
-
-    //   }
-    // }
-      
+        $.ajax({
+          url: '',
+            type: 'GET',
+            data: {
+              "deleteId": boxes_id,
+              "action": "delete_records",
+            },
+            success: function(response) {
+              if (response != "") {
+                var result = JSON.parse(response);
+                alert(result.message);
+                  location.reload();
+              }
+            }
+          });
     });
 
   });

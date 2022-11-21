@@ -4,9 +4,20 @@ require_once(SITE_ROOT_DIR_PATH . "include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php"); 
 
+//delete event query
+if(!empty($_GET['action']) && $_GET['action']=='delete'){
+  if(!isset($_GET['id'])) $mesg_err = "Event not found to delete";
+    $id = $_GET['id'];
+      $sql = "DELETE from event_list WHERE id = $id";
+      $result = $conn->query($sql);
+      if($result) $mesg = "Event Deleted Successfully";
+      else $mesg_err = "Event not found to be delete";
+}
+
 //fetch data from event list to show the list of events
 $event_data = array();
-$sql = "SELECT * FROM event_list";
+$count = 1;
+$sql = "SELECT * FROM event_list WHERE userID = '".$_SESSION['userID']."'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
@@ -24,14 +35,17 @@ if(isset($_POST['saveEvent'])){
   else $eventNameErr = "Please enter Event Name";
   if(!empty($_POST['countGuests'])) $countGuests = $_POST['countGuests'];
    else $countGuestsErr = "Please enter No. of Guests";
+   if(!empty($_POST['eventcost'])) $eventcost = $_POST['eventcost'];
+   else $eventcostErr = "Please enter Cost of Event";
   if(!empty($_POST['venueAddress'])) $venueAddress = $_POST['venueAddress'];
    else $venueAddressErr = "Please enter Address of Event";
   if(!empty($_POST['newDateEvent'])) $newDateEvent = $_POST['newDateEvent'];
    else $newDateEventErr = "Please enter date of Event";
 
-   if (!empty($eventName) && !empty($countGuests) && !empty($venueAddress) && !empty($newDateEvent)) {
-    $sql = "INSERT INTO event_list (eventName,totalGuests,venue,eventDate) VALUES ('$eventName','$countGuests','$venueAddress','$newDateEvent')";
+   if (!empty($eventName) && !empty($countGuests) && !empty($eventcost) && !empty($venueAddress) && !empty($newDateEvent)) {
+    $sql = "INSERT INTO event_list (userID,eventName,totalGuests,eventCost,venue,eventDate) VALUES ('".$_SESSION['userID']."','$eventName','$countGuests','$eventcost','$venueAddress','$newDateEvent')";
       if ($conn->query($sql) === TRUE) {
+        echo "<meta http-equiv='refresh' content='0'>";
           $event = "Event Created Successfully :)";
       } else {
           $noEvent = "Something Went Wrong :(";
@@ -42,17 +56,6 @@ if(isset($_POST['saveEvent'])){
     }
   }
 
-  //delete event query
-  if($_GET['action'] && $_GET['action']=='delete'){
-    if(!isset($_GET['id'])) $mesg_err = "Event not found to delete";
-      $id = $_GET['id'];
-        $sql = "DELETE from event_list WHERE id = $id";
-        $result = $conn->query($sql);
-        if($result) $mesg = "Event Deleted Successfully";
-        else $mesg_err = "Event not found to be delete";
-  }
-
-
   $conn->close();
 ?>
 <!-- create events  -->
@@ -61,8 +64,8 @@ if(isset($_POST['saveEvent'])){
     <h1 class="text-center">Events</h1>
     <div class="row py-3">
       <div class="col-lg-12 ml-5">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn mb-3 add-btn" data-bs-toggle="modal" data-bs-target="#addEvent"><i class="bi bi-plus"></i>Add New Event</button>
+        <!-- Button to add event -->
+        <a href="<?php echo BASE_URL; ?>events/add-event.php"><button type="button" class="btn mb-3 add-btn" id="addEvent"><i class="bi bi-plus"></i>Add New Event</button></a>
         <div class="card rounded shadow border-0">
           <div class="card-body p-5 bg-white rounded">
             <div class="table-responsive">
@@ -72,6 +75,7 @@ if(isset($_POST['saveEvent'])){
                     <th>Sr. No.</th>
                     <th>Event Name</th>
                     <th>No. of Guests</th>
+                    <th>Expenses</th>
                     <th>Venue</th>
                     <th>Date</th>
                     <th>Edit / Delete</th>
@@ -80,9 +84,10 @@ if(isset($_POST['saveEvent'])){
                 <tbody>
                   <?php foreach ($event_data as $data) { ?>
                     <tr class="text-center">
-                      <td><?php echo $data['id'];?></td> 
+                      <td><?php echo $count;?></td> 
                       <td><?php echo $data['eventName']; ?></td>
                       <td><?php echo $data['totalGuests']; ?></td>
+                      <td><?php echo $data['eventCost']; ?></td>
                       <td><?php echo $data['venue']; ?></td>
                       <td><?php echo $data['eventDate']; ?></td>
                       <td>
@@ -90,11 +95,11 @@ if(isset($_POST['saveEvent'])){
                           <i class="bi bi-pencil-square edit"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
                         <a href="<?php BASE_URL ?>?action=delete&id=<?php echo $data['id']?>" title="delete this">
-                         <i class="bi bi-trash delete"></i>
+                        <i class="bi bi-trash delete"></i>
                         </a>
                       </td>
                     </tr>
-                    <?php } ?>
+                    <?php $count++; } ?>
                   </tbody>
                 </table>
                 <div class="text-center text-success"><?php if (isset($mesg)) echo $mesg; ?></div> 
@@ -104,51 +109,84 @@ if(isset($_POST['saveEvent'])){
         </div>
       </div>
     </div>
+
+  
   </div>
-   <!-- add new event by modal popup -->
-   <form class="row g-3" method="POST" id="addEventForm">
-   <div class="modal fade" id="addEvent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header text-center">
-            <h5 class="modal-title" id="addNewEvent">New Event</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="row"> 
-              <div class="col-md-6">
-                <label for="eventName" class="form-label">Event Name:</label>
-                <input type="text" class="form-control eventFields" name="eventName" id="eventName" value="<?php echo(isset($eventName)) ? $eventName: ''; ?>">
-              </div>
-              <div class="col-md-6">
-                <label for="countGuests" class="form-label">No. of Guests:</label>
-                <input type="number" class="form-control eventFields" name="countGuests" id="countGuests" value="<?php echo(isset($countGuests)) ? $countGuests: ''; ?>">
-              </div>
-            </div>
-            <div class="row"> 
-              <div class="col-md-6">
-                <label for="venueAddress" class="form-label">Venue:</label>
-                <textarea class="form-control eventFields" rows=1 name="venueAddress" id="venueAddress" placeholder="1234 Main St"><?php echo(isset($venueAddress)) ? $venueAddress: ''; ?></textarea>
-              </div>
-              <div class="col-md-6">
-                <label for="dateEvent" class="form-label">Date:</label>
-                <input type="date" class="form-control eventFields" name="newDateEvent" id="newDateEvent"  value="<?php echo(isset($newDateEvent)) ? $newDateEvent: ''; ?>"min="<?php echo date("j F Y") ?>">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <span class="text-success"><?php if (isset($event)) echo $event; ?></span>
-                <span class="text-danger"><?php if (isset($noEvent)) echo $noEvent; if (isset($all_fields_err)) echo $all_fields_err;?></span>
-              </div>
-              <div class="col-12 text-center">
-                <a href="<?php BASE_URL ?>"><button type="submit" class="btn btn-primary" name="saveEvent" id="saveEvent">Save</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
-  </form>
 </main>
+<script>
+   $(document).ready(function() {
+    var table = $('#event-table').DataTable({
+      dom: '<"top"Bfrti><"bottom"lp><"clear">', //refs Link : https://www.ihbc.org.uk/consultationsdb_new/examples/basic_init/dom.html
+      buttons: [{
+          extend: 'excelHtml5',
+          exportOptions: {
+            columns: 'th:not(:last-child)'
+          },
+          text: '<i class="bi  bi-file-earmark-excel"> Export as Excel</i>',
+          className: 'text-success',
+          footer: true,
+          titleAttr: 'Excel'
+        },
+
+        {
+          extend: 'pdfHtml5',
+          exportOptions: {
+            columns: 'th:not(:last-child)'
+          },
+          messageTop: 'This file is export from www.event-info.com',
+          messageBottom: 'Pdf exported you can edit this from js code ',
+          text: '<i class="bi  bi-file-earmark-pdf"> Export as PDF</i>',
+          titleAttr: 'PDF',
+          className: 'text-danger',
+          footer: true,
+          title: 'Data Export PDF File'
+        },
+        {
+          text: '<i class="bi bi-trash delete-all"> Delete All</i>',
+          titleAttr: 'Delete All',
+          className: 'text-danger',
+        }
+      ],
+      columnDefs: [{
+          targets: 0,
+          sortable: false
+        },
+        {
+          targets: 6,
+          sortable: false
+        },
+      ],
+      order: [
+        [1, "asc"]
+      ],
+      "pageLength": 10
+
+    });
+
+    // $(".delete-all").on("click", function(ele) {
+
+    //   var boxes_id = $('input[name=check]:checked').map(function(){
+    //     return $(this).val();
+    //   }).get().join(',');
+
+    //     $.ajax({
+    //       url: '',
+    //         type: 'GET',
+    //         data: {
+    //           "deleteId": boxes_id,
+    //           "action": "delete_records",
+    //         },
+    //         success: function(response) {
+    //           if (response != "") {
+    //             var result = JSON.parse(response);
+    //             alert(result.message);
+    //               location.reload();
+    //           }
+    //         }
+    //       });
+    // });
+
+  });
+</script>
 <?php 
 require_once(SITE_ROOT_DIR_PATH . "include/footer.php");

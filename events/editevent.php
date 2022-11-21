@@ -7,7 +7,7 @@ require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
 
   //edit event and update it into db
-  if($_GET['action'] && $_GET['action']=='edit'){
+  if(!empty($_GET['action']) && $_GET['action']=='edit'){
     if(!isset($_GET['id'])) $mesg_err = "Event not found to edit";
       $id = $_GET['id'];
         $sql = "SELECT * from event_list WHERE id = $id";
