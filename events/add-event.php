@@ -18,7 +18,13 @@ if(isset($_POST['saveEvent'])){
      else $newDateEventErr = "Please enter date of Event";
   
      if (!empty($eventName) && !empty($countGuests) && !empty($eventcost) && !empty($venueAddress) && !empty($newDateEvent)) {
-      $sql = "INSERT INTO event_list (userID,eventName,totalGuests,eventCost,venue,eventDate) VALUES ('".$_SESSION['userID']."','$eventName','$countGuests','$eventcost','$venueAddress','$newDateEvent')";
+        $sql = "SELECT * FROM event_list WHERE eventName = '$eventName' AND totalGuests = '$countGuests' AND eventCost = '$eventcost' AND venue = '$venueAddress' AND eventDate = '$newDateEvent'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+        $eventExists = "This Event already exists.";
+        } 
+    else {
+        $sql = "INSERT INTO event_list (userID,eventName,totalGuests,eventCost,venue,eventDate) VALUES ('".$_SESSION['userID']."','$eventName','$countGuests','$eventcost','$venueAddress','$newDateEvent')";
         if ($conn->query($sql) === TRUE) {
           echo "<meta http-equiv='refresh' content='0'>";
             $event = "Event Created Successfully :)";
@@ -26,6 +32,7 @@ if(isset($_POST['saveEvent'])){
             $noEvent = "Something Went Wrong :(";
         }
       }
+    }
       else {
           $all_fields_err = "All Fields need to be fill **";
       }
@@ -64,23 +71,23 @@ $conn->close();
                     </div>
                     <div class="col-md-6">
                     <div class="form-floating">
-                    <textarea class="form-control eventFields" rows=1 name="venueAddress" id="venueAddress" placeholder="1234 Main St"><?php echo(isset($venueAddress)) ? $venueAddress: ''; ?></textarea>
+                    <textarea class="form-control" rows=1 name="venueAddress" id="venueAddress" placeholder="1234 Main St"><?php echo(isset($venueAddress)) ? $venueAddress: ''; ?></textarea>
                         <label for="venueAddress">Venue</label>
                     </div>
                     </div>
                     <div class="col-md-6">
                     <div class="form-floating">
-                    <input type="date" class="form-control eventFields" name="newDateEvent" id="newDateEvent"  value="<?php echo(isset($newDateEvent)) ? $newDateEvent: ''; ?>"min="<?php echo date("j F Y") ?>">
+                    <input type="date" class="form-control" name="newDateEvent" id="newDateEvent"  value="<?php echo(isset($newDateEvent)) ? $newDateEvent: ''; ?>"min="<?php echo date("j F Y") ?>">
                         <label for="dateEvent">Date</label>
                     </div>
                     </div>
                 
                     <div class="col-12">
                     <span class="text-success"><?php if (isset($event)) echo $event; ?></span>
-                    <span class="text-danger"><?php if (isset($noEvent)) echo $noEvent; if (isset($all_fields_err)) echo $all_fields_err;?></span>
+                    <span class="text-danger"><?php if (isset($noEvent)) echo $noEvent; if (isset($all_fields_err)) echo $all_fields_err; echo(isset($eventExists))? $eventExists: '';?></span>
                     </div>
                     <div class="col-12 text-center">
-                    <a href="<?php BASE_URL ?>"><button type="submit" class="btn add-btn" name="saveEvent" id="saveEvent">Add</button></a>
+                    <a href="<?php BASE_URL ?>"><button type="submit" class="btn add-btn" name="saveEvent" id="saveEvent">Add <i class="bi bi-person-plus-fill"></i></button></a>
                     <button type="reset" class="btn add-btn">Reset</button>
                     </div>
                 </form>

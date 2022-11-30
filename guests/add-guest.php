@@ -4,7 +4,7 @@ require_once(SITE_ROOT_DIR_PATH . "include/header.php");
 require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php");
 
-if (isset($_POST["add_guest"])) {
+if (isset($_POST["addGuest"])) {
 
     if (!empty($_POST['name'])) $name = $_POST['name'];
     else $name_err = "please enter guest's name";
@@ -28,8 +28,8 @@ if (isset($_POST["add_guest"])) {
     else {
         $sql = "INSERT INTO guest_list (userID,guest_name,guest_mobile,guest_address,relationship) VALUES ('".$_SESSION['userID']."','$name','$number','$address','$relationship')";
         if ($conn->query($sql) === TRUE) {
-            echo "<meta http-equiv='refresh' content='0'>";
             $data = "Data Entered Successfully :)";
+            echo "<meta http-equiv='refresh' content='0'>";
         } else {
             $no_data = "Something Went Wrong :(";
         }
@@ -43,55 +43,55 @@ if (isset($_POST["add_guest"])) {
 ?>
 <main class="main" id="main">
     <div class="my-guest container">
-        <h1 class="text-center">Add New Guest</h1>
-        <div class="row py-3">
-            <div class="col-lg-12 ml-5">
-                <a href="<?php echo BASE_URL; ?>guests/total-guests.php"><button type="submit" class="mb-3 add-btn"><i class="bi bi-person-heart"></i> See Guest List</button></a>
-                <div class="card rounded shadow border-0">
-                    <a href="<?php echo BASE_URL; ?>guests/total-guests.php"><span class="text-danger float-end btn-close"></span></a>
-                    <div class="card-body p-5 bg-white rounded">
-                        <form method="POST">
-                            <div class="table-responsive">
-                                <table id="guest-table" style="width:100%" class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr class="text-center">
-                                            <th>Name</th>
-                                            <th>Mobile Number</th>
-                                            <th>Address</th>
-                                            <th>Relationship</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="text-center">
-                                            <td>
-                                                <input class="form-control" type="text" name="name" placeholder="Please Enter Guest Name" value="<?php echo(isset($name)) ? $name: ''; ?>">
-                                                <span class="text-danger"><?php if(isset ($name_err)) echo $name_err; ?></span>
-                                            </td>
-                                            <td>
-                                                <input type="number" name="number" class="form-control" placeholder="Please Enter Guest Mobile Number" value="<?php echo(isset($number)) ? $number: ''; ?>">
-                                                <span class="text-danger"><?php if(isset ($number_err)) echo $number_err; ?></span> 
-                                            </td>
-                                            <td>
-                                                <textarea name="address" class="form-control" placeholder="Please Enter Address"><?php echo(isset($address)) ? $address: ''; ?></textarea>
-                                                <span class="text-danger"><?php if(isset ($address_err)) echo $address_err; ?></span>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" name="relationship" placeholder="Relationship with Guest" value="<?php echo(isset($relationship)) ? $relationship: ''; ?>">
-                                                <span class="text-danger"><?php if(isset ($relationship_err)) echo $relationship_err; ?></span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="text-center mt-2 text-success"><?php if (isset($data)) echo $data;?> <span class="text-danger"><?php if (isset($no_data)) echo $no_data; echo (isset($all_fields_err))?  $all_fields_err:''; echo(isset($guestExists))? $guestExists: '';?></span></div>
-                                <div class="text-center"><button class="add-btn" type="submit" name="add_guest">Add <i class="bi bi-person-plus-fill"></i> </button></div>
-                        </form>
-                    </div>
+        <section class="section">
+            <a href="<?php echo BASE_URL; ?>guests/total-guests.php"><button type="submit" class="mb-3 add-btn"><i class="bi bi-calendar-event"></i> See Event List</button></a>
+            <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">New Guest</h5>
+                    <form class="row g-3" method="POST" id="addGuestForm">
+                        <div class="col-md-12">
+                        <div class="form-floating">
+                            <input type="text" name="name" class="form-control" id="guestName" placeholder="Guest Name" value="<?php echo(isset($name)) ? $name: ''; ?>">
+                            <label for="name">Guest Name</label>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="number" name="number" class="form-control" placeholder="phone Number" value="<?php echo(isset($number)) ? $number: ''; ?>">
+                            <label for="contact Number">Guest contact Number</label>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-floating">
+                        <textarea class="form-control" rows=1 name="address" id="guestAddress" placeholder="1234 Main St"><?php echo(isset($address)) ? $address: ''; ?></textarea>
+                            <label for="guestAddress">Guest Address</label>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-floating">
+                        <input type="text" class="form-control" name="relationship" id="relationship"  value="<?php echo(isset($relationship)) ? $relationship: ''; ?>">
+                            <label for="relationship">Relationship</label>
+                        </div>
+                        </div>
+                    
+                        <div class="col-12">
+                        <span class="text-success"><?php if (isset($data)) echo $data; ?></span>
+                        <span class="text-danger"><?php if (isset($no_data)) echo $no_data; if (isset($all_fields_err)) echo $all_fields_err; echo(isset($guestExists))? $guestExists: '';?></span>
+                        </div>
+                        <div class="col-12 text-center">
+                        <a href="<?php BASE_URL ?>"><button type="submit" class="btn add-btn" name="addGuest" id="addGuest">Add <i class="bi bi-person-plus-fill"></i></button></a>
+                        <button type="reset" class="btn add-btn">Reset</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
-    </div>
+            </div>
+        </section>
+
     </div>
 </main>
+
 <?php
 require_once(SITE_ROOT_DIR_PATH . "include/footer.php");
 ?>

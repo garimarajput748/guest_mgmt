@@ -154,7 +154,7 @@ if (isset($_POST['invitation'])) {
 
     });
 
-    $(".delete-all").on("click", function(ele) {
+    $(".delete-all").on("click", function() {
 
       var boxes_id = $('input[name=check]:checked').map(function(){
         return $(this).val();

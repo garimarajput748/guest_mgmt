@@ -1,18 +1,23 @@
 <?php
 require_once("../path.php");
-require_once(SITE_ROOT_DIR_PATH . "include/header.php");
-require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 require_once(SITE_ROOT_DIR_PATH . "dbConn/db.php"); 
 
 //delete event query
-if(!empty($_GET['action']) && $_GET['action']=='delete'){
-  if(!isset($_GET['id'])) $mesg_err = "Event not found to delete";
-    $id = $_GET['id'];
-      $sql = "DELETE from event_list WHERE id = $id";
-      $result = $conn->query($sql);
-      if($result) $mesg = "Event Deleted Successfully";
-      else $mesg_err = "Event not found to be delete";
+if (!empty($_GET['action']) && $_GET['action'] == 'delete_records' && !empty($_GET['deleteId'])) {
+  $deleteId = $_GET['deleteId'];
+  $sql = "DELETE FROM event_list WHERE id in($deleteId)";
+
+  try {
+    $result = $conn->query($sql);
+    $message = "Record Deleted Successfully";
+  } catch (Exception $e) {
+    $message = $e->getMessage();
+  }
+  echo json_encode(array("message" => $message));
+  exit;
 }
+require_once(SITE_ROOT_DIR_PATH . "include/header.php");
+require_once(SITE_ROOT_DIR_PATH . "include/sidebar.php");
 
 //fetch data from event list to show the list of events
 $event_data = array();
@@ -28,33 +33,6 @@ if ($result->num_rows > 0) {
   $conn->query($sql);
   $no_data =  "No Event Found :)";
 }
-
-// add new event into database 
-if(isset($_POST['saveEvent'])){
-  if(!empty($_POST['eventName']))$eventName = $_POST['eventName'];
-  else $eventNameErr = "Please enter Event Name";
-  if(!empty($_POST['countGuests'])) $countGuests = $_POST['countGuests'];
-   else $countGuestsErr = "Please enter No. of Guests";
-   if(!empty($_POST['eventcost'])) $eventcost = $_POST['eventcost'];
-   else $eventcostErr = "Please enter Cost of Event";
-  if(!empty($_POST['venueAddress'])) $venueAddress = $_POST['venueAddress'];
-   else $venueAddressErr = "Please enter Address of Event";
-  if(!empty($_POST['newDateEvent'])) $newDateEvent = $_POST['newDateEvent'];
-   else $newDateEventErr = "Please enter date of Event";
-
-   if (!empty($eventName) && !empty($countGuests) && !empty($eventcost) && !empty($venueAddress) && !empty($newDateEvent)) {
-    $sql = "INSERT INTO event_list (userID,eventName,totalGuests,eventCost,venue,eventDate) VALUES ('".$_SESSION['userID']."','$eventName','$countGuests','$eventcost','$venueAddress','$newDateEvent')";
-      if ($conn->query($sql) === TRUE) {
-        echo "<meta http-equiv='refresh' content='0'>";
-          $event = "Event Created Successfully :)";
-      } else {
-          $noEvent = "Something Went Wrong :(";
-      }
-    }
-    else {
-        $all_fields_err = "All Fields need to be fill **";
-    }
-  }
 
   $conn->close();
 ?>
@@ -72,6 +50,7 @@ if(isset($_POST['saveEvent'])){
               <table id="event-table" style="width:100%" class="table table-striped table-bordered">
                 <thead>
                   <tr class="text-center">
+                    <th class="text-nowrap">Select All <input type="checkbox" name="chk-all" value="chk-all" onchange="checkAll(this)"></th>
                     <th>Sr. No.</th>
                     <th>Event Name</th>
                     <th>No. of Guests</th>
@@ -84,6 +63,7 @@ if(isset($_POST['saveEvent'])){
                 <tbody>
                   <?php foreach ($event_data as $data) { ?>
                     <tr class="text-center">
+                      <td><input type="checkbox" name="check" class="check" onchange="checkChange()" value="<?php echo $data['id']; ?>"></td>
                       <td><?php echo $count;?></td> 
                       <td><?php echo $data['eventName']; ?></td>
                       <td><?php echo $data['totalGuests']; ?></td>
@@ -93,10 +73,10 @@ if(isset($_POST['saveEvent'])){
                       <td>
                         <a href="<?php BASE_URL ?>editevent.php?action=edit&id=<?php echo $data['id']?>">
                           <i class="bi bi-pencil-square edit"></i>
-                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
-                        <a href="<?php BASE_URL ?>?action=delete&id=<?php echo $data['id']?>" title="delete this">
-                        <i class="bi bi-trash delete"></i>
-                        </a>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="border-0 bg-transparent" title="delete this" class="delete-btn" onclick="deleteRow(this)" data-id="<?php echo $data['id'] ?>">
+                          <i class="bi bi-trash delete"></i>
+                        </button>
                       </td>
                     </tr>
                     <?php $count++; } ?>
@@ -114,7 +94,7 @@ if(isset($_POST['saveEvent'])){
   </div>
 </main>
 <script>
-   $(document).ready(function() {
+  $(document).ready(function() {
     var table = $('#event-table').DataTable({
       dom: '<"top"Bfrti><"bottom"lp><"clear">', //refs Link : https://www.ihbc.org.uk/consultationsdb_new/examples/basic_init/dom.html
       buttons: [{
@@ -152,7 +132,7 @@ if(isset($_POST['saveEvent'])){
           sortable: false
         },
         {
-          targets: 6,
+          targets: 7,
           sortable: false
         },
       ],
@@ -163,30 +143,51 @@ if(isset($_POST['saveEvent'])){
 
     });
 
-    // $(".delete-all").on("click", function(ele) {
+    $(".delete-all").on("click", function() {
 
-    //   var boxes_id = $('input[name=check]:checked').map(function(){
-    //     return $(this).val();
-    //   }).get().join(',');
+      var boxes_id = $('input[name=check]:checked').map(function(){
+        return $(this).val();
+      }).get().join(',');
 
-    //     $.ajax({
-    //       url: '',
-    //         type: 'GET',
-    //         data: {
-    //           "deleteId": boxes_id,
-    //           "action": "delete_records",
-    //         },
-    //         success: function(response) {
-    //           if (response != "") {
-    //             var result = JSON.parse(response);
-    //             alert(result.message);
-    //               location.reload();
-    //           }
-    //         }
-    //       });
-    // });
+        $.ajax({
+          url: '',
+            type: 'GET',
+            data: {
+              "deleteId": boxes_id,
+              "action": "delete_records",
+            },
+            success: function(response) {
+              if (response != "") {
+                var result = JSON.parse(response);
+                alert(result.message);
+                  location.reload();
+              }
+            }
+          });
+    });
 
   });
+
+  function deleteRow(ele) {
+    var deleteId = $(ele).attr("data-id");
+    $(ele).parents("tr").remove();
+
+    $.ajax({
+      url: '',
+      type: 'GET',
+      data: {
+        "deleteId": deleteId,
+        "action": "delete_records",
+      },
+      success: function(response) {
+        if (response != "") {
+          var result = JSON.parse(response);
+          alert(result.message);
+        }
+      }
+    });
+  }
+  
 </script>
 <?php 
 require_once(SITE_ROOT_DIR_PATH . "include/footer.php");
