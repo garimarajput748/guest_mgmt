@@ -266,7 +266,7 @@
       }
     ],
     template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
-    template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+    template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y validation: %H:%M:%S]',
     height: 600,
     image_caption: true,
     quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
@@ -346,35 +346,24 @@ function checkChange(){
   }
 }
 
-//delete selected checkbox using delete-all btn
-// function delBoxes(){
-//   var boxes = document.getElementsByClassName('chk');
-//   var texts = document.getElementsByClassName('txt');
-//   for(var i = 0; i<boxes.length; i++){
-//       box = boxes[i];
-//       txt = texts[i];
-//       if(box.checked){
-//           box.parentNode.removeChild(box);
-//           txt.parentNode.removeChild(txt);
-//       }
-//   }
-// }
+// mobile-number validation 
 
-// reset form values on-click
-// var form = document.getElementById('addEventsForm');
-// form.addEventListener('click', function(event) {
-//   formReset();
-// });
-// function formReset()
-// {
-//     document.getElementById("addEventForm").reset();
-
-// $(document).ready(function() {
-
-//   $(document).on('hidden.bs.modal', function (e) {
-//     $(e.target).removeData('bs.modal');
-// });
-
-// });
+function numberValidate(event){
+  var contactNumber = document.getElementById("contactNumber").value;
+  var errorMsg = document.getElementById("errorMsg");
+  var tdr_regex = /^\d{10}$/;  
+  if(contactNumber !== ''){
+    if (tdr_regex.test(contactNumber) == false)
+    {
+      errorMsg.classList.remove("d-none");
+      event.preventDefault(contactNumber);
+      console.log(event.preventDefault(contactNumber));
+    }
+    else errorMsg.classList.add("d-none");
+    
+  }
+}
+// const form = document.getElementById('addGuestForm');
+// form.addEventListener('submit', numberValidate);
 
 // date-validation of events 

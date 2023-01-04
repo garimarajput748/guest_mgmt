@@ -58,8 +58,9 @@ if (isset($_POST["addGuest"])) {
                         </div>
                         <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="number" name="number" class="form-control" placeholder="phone Number" value="<?php echo(isset($number)) ? $number: ''; ?>">
+                            <input type="number" name="number" class="form-control" id="contactNumber" placeholder="phone Number" onchange="numberValidate(this)" value="<?php echo(isset($number)) ? $number: ''; ?>">
                             <label for="contact Number">Guest contact Number</label>
+                            <span class="text-danger d-none" id="errorMsg">Phone number is not in the correct format!</span>
                         </div>
                         </div>
                         <div class="col-md-6">
